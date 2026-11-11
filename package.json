@@ -1,0 +1,50 @@
+{
+  "name": "diskshaper",
+  "productName": "Diskshaper",
+  "version": "1.0.0",
+  "description": "See what's eating your storage and clean only what's safe. Free, offline, for Windows and Mac.",
+  "main": "src/main.js",
+  "private": true,
+  "author": "Hollowbit Studio",
+  "license": "MIT",
+  "homepage": "https://hollowbit-dev.github.io/diskshaper/",
+  "repository": "github:hollowbit-dev/diskshaper",
+  "scripts": {
+    "start": "electron .",
+    "scan": "node src/scanner.js",
+    "test": "node test/shots.mjs && node test/refuse.mjs",
+    "icon": "swift scripts/make-icon.swift assets/icon.png && sips -z 1024 1024 assets/icon.png",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:win": "electron-builder --win --publish never",
+    "dist": "electron-builder --mac --win --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "playwright": "1.48"
+  },
+  "build": {
+    "appId": "dev.hollowbit.diskshaper",
+    "productName": "Diskshaper",
+    "directories": { "output": "dist" },
+    "files": ["src/**/*", "assets/icon.png", "package.json"],
+    "mac": {
+      "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }],
+      "category": "public.app-category.utilities",
+      "icon": "assets/icon.png",
+      "identity": null,
+      "artifactName": "Diskshaper-${version}-mac-${arch}.${ext}"
+    },
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "assets/icon.png",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Diskshaper-Setup-${version}-win-x64.exe"
+    },
+    "afterPack": "scripts/after-pack.js"
+  }
+}

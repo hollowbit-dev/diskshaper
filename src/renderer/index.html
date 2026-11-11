@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+<title>Diskshaper</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body class="is-home">
+<header class="top">
+  <div class="brand"><span class="logo"><i></i></span><span>Diskshaper</span></div>
+  <nav class="seg" id="seg" hidden>
+    <span class="seg-pill" id="segPill"></span>
+    <button data-g="all" class="on">Overview</button>
+    <button data-g="everyone">Everyone</button>
+    <button data-g="gamers">Gaming</button>
+    <button data-g="creators">Video editing</button>
+  </nav>
+  <button class="ghost sm" id="rescan" hidden>Scan again</button>
+</header>
+
+<main class="stage">
+  <!-- the storage bar lives across every screen -->
+  <section class="meter" id="meter">
+    <div class="meter-head">
+      <div>
+        <div class="k" id="meterK">Free space</div>
+        <div class="big"><span id="bigNum">–</span><small id="bigUnit"></small></div>
+      </div>
+      <div class="meter-side" id="meterSide"></div>
+    </div>
+    <div class="bar" id="bar">
+      <div class="bar-used" id="barUsed"><div class="sweep"></div></div>
+      <div class="bar-segs" id="barSegs"></div>
+      <div class="bar-free" id="barFree"></div>
+    </div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section class="home" id="home">
+    <h1>See what's eating your storage.</h1>
+    <p>Diskshaper looks through your drive and sorts what it finds into plain groups, from shader caches to old renders. It only cleans what you pick, and everything goes to the <span class="trashword">Trash</span> so you can undo it.</p>
+    <div class="cta">
+      <button id="scanBtn" class="primary lg">Scan</button>
+      <span class="hint">Takes a few seconds. Reads only.</span>
+    </div>
+    <div class="who">
+      <div><b class="dot everyone"></b><span><strong>Everyone</strong> Old installers, duplicate photos, huge forgotten files</span></div>
+      <div><b class="dot gamers"></b><span><strong>Gaming</strong> Shader caches, Steam and Epic leftovers, games you stopped playing</span></div>
+      <div><b class="dot creators"></b><span><strong>Video editing</strong> Premiere, Resolve and After Effects caches, old renders, duplicate footage</span></div>
+    </div>
+  </section>
+
+  <section class="live" id="live" hidden>
+    <div class="live-now"><span class="pulse"></span><span id="liveLabel">Starting</span><span class="mono" id="livePath"></span></div>
+    <div class="live-list" id="liveList"></div>
+  </section>
+
+  <section class="grid-wrap" id="overview" hidden>
+    <div id="groups"></div>
+  </section>
+
+  <section class="detail" id="detail" hidden></section>
+</main>
+
+<footer class="dock" id="dock" hidden>
+  <div class="dock-txt"><b id="selSize">0 GB</b><span id="selCount"></span></div>
+  <div class="dock-btns">
+    <button class="ghost sm" id="selSafe">Select safe only</button>
+    <button id="cleanBtn" class="primary">Move to Trash</button>
+  </div>
+</footer>
+
+<div class="sheet-bg" id="doneBg" hidden>
+  <div class="sheet" id="done">
+    <svg class="done-check" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-15"/></svg>
+    <div class="sheet-num"><span id="doneNum">0</span><small id="doneUnit">GB</small></div>
+    <p id="doneTxt"></p>
+    <div class="sheet-btns">
+      <button class="ghost" id="openTrash">Open Trash</button>
+      <button class="primary" id="doneOk">Done</button>
+    </div>
+  </div>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script src="icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
