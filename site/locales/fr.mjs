@@ -84,6 +84,7 @@ export default {
     why: 'Ces avertissements apparaissent car Diskshaper n’est pas signé avec un certificat payant. Il est gratuit, open source et ne se connecte pas à Internet.',
   },
   changelog: [
+    { v: '1.0.1', date: '11 novembre 2026', name: 'Petite mise à jour', items: ['« par Hollowbit Studio » dans l’appli ouvre maintenant hollowbit.dev, la maison des applis gratuites de Hollowbit.'] },
     { v: '1.0.0', date: '11 novembre 2026', name: 'Première version', items: [
       'Analyse votre disque en quelques secondes et range ce qu’il trouve en Tout le monde, Jeux et Montage vidéo.',
       'Jeux : caches de shaders, restes Steam et Epic, téléchargements inachevés, caches de launchers, jeux non lancés (Steam, Epic, Heroic), bouteilles CrossOver.',

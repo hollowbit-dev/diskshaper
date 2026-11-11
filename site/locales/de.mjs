@@ -84,6 +84,7 @@ export default {
     why: 'Die Warnungen erscheinen, weil Diskshaper nicht mit einem kostenpflichtigen Zertifikat signiert ist. Es ist kostenlos, Open Source und stellt keine Internetverbindung her.',
   },
   changelog: [
+    { v: '1.0.1', date: '11. November 2026', name: 'Kleines Update', items: ['„by Hollowbit Studio“ in der App öffnet jetzt hollowbit.dev, das Zuhause der kostenlosen Hollowbit-Apps.'] },
     { v: '1.0.0', date: '11. November 2026', name: 'Erste Version', items: [
       'Scannt deine Festplatte in wenigen Sekunden und sortiert alles in Für alle, Gaming und Videoschnitt.',
       'Gaming: Shader-Caches, Steam- und Epic-Reste, abgebrochene Downloads, Launcher-Caches, ungespielte Spiele (Steam, Epic, Heroic), CrossOver-Flaschen.',

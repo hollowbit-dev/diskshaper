@@ -84,6 +84,7 @@ export default {
     why: '出现这些警告是因为 Diskshaper 没有使用付费证书签名。它免费、开源，并且完全不联网。',
   },
   changelog: [
+    { v: '1.0.1', date: '2026 年 11 月 11 日', name: '小更新', items: ['应用中的“by Hollowbit Studio”现在会打开 hollowbit.dev，即 Hollowbit 免费应用的主页。'] },
     { v: '1.0.0', date: '2026 年 11 月 11 日', name: '首个版本', items: [
       '几秒内扫描磁盘，把找到的内容分为“每个人”“游戏”和“视频剪辑”三组。',
       '游戏：着色器缓存、Steam 和 Epic 残留、未完成的下载、启动器缓存、很久没玩的游戏（Steam、Epic、Heroic）、CrossOver 容器。',

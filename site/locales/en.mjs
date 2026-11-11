@@ -84,6 +84,7 @@ export default {
     why: 'The warnings appear because Diskshaper is not signed with a paid certificate. It is free, open source and makes no network requests.',
   },
   changelog: [
+    { v: '1.0.1', date: '11 November 2026', name: 'Small update', items: ['“by Hollowbit Studio” in the app now opens hollowbit.dev, home of Hollowbit’s free apps.'] },
     { v: '1.0.0', date: '11 November 2026', name: 'First release', items: [
       'Scans your drive in a few seconds and sorts what it finds into Everyone, Gaming and Video editing.',
       'Gaming: shader caches, Steam and Epic leftovers, unfinished downloads, launcher caches, unplayed games (Steam, Epic, Heroic), CrossOver bottles.',

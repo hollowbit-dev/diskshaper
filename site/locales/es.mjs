@@ -84,6 +84,7 @@ export default {
     why: 'Los avisos aparecen porque Diskshaper no está firmado con un certificado de pago. Es gratis, de código abierto y no se conecta a internet.',
   },
   changelog: [
+    { v: '1.0.1', date: '11 de noviembre de 2026', name: 'Pequeña actualización', items: ['«de Hollowbit Studio» en la app ahora abre hollowbit.dev, la casa de las apps gratuitas de Hollowbit.'] },
     { v: '1.0.0', date: '11 de noviembre de 2026', name: 'Primera versión', items: [
       'Analiza tu disco en pocos segundos y ordena lo que encuentra en Para todos, Gaming y Edición de vídeo.',
       'Gaming: cachés de shaders, restos de Steam y Epic, descargas sin terminar, cachés de launchers, juegos sin jugar (Steam, Epic, Heroic), botellas de CrossOver.',
