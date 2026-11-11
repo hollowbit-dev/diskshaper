@@ -31,6 +31,9 @@ function create() {
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true },
   });
   win.once('ready-to-show', () => win.show());
+  // Web links (like hollowbit.dev) open in the browser, never inside the app.
+  win.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: 'deny' }; });
+  win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('file:')) { e.preventDefault(); if (/^https:\/\//.test(url)) shell.openExternal(url); } });
   win.loadFile(path.join(__dirname, 'renderer/index.html'));
 }
 

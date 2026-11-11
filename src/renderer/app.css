@@ -25,6 +25,13 @@ body.win .top { padding-left: 18px; padding-right: 150px; }
 .logo i { position: absolute; left: 4px; right: 4px; bottom: 4px; height: 4px; border-radius: 2px; background: rgba(9,9,11,.8); }
 .logo i::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 55%; border-radius: 2px; background: #fff; opacity: .9; }
 #rescan { justify-self: end; }
+.studio-link { -webkit-app-region: no-drag; color: var(--tx3); font-size: 12px; font-weight: 500; text-decoration: none; margin-left: 2px; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line); transition: color .15s, border-color .15s; }
+.studio-link:hover { color: var(--tx); border-color: var(--line2); }
+.made-by { display: flex; align-items: center; gap: 10px; margin-top: 22px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); color: var(--tx3); font-size: 12.5px; text-decoration: none; transition: border-color .2s, color .2s; }
+.made-by:hover { border-color: var(--line2); color: var(--tx2); }
+.made-by svg { width: 18px; height: 18px; color: var(--tx); flex: none; }
+.made-by b { color: var(--tx); font-weight: 600; }
+.made-by em { margin-left: auto; font-style: normal; color: var(--acc); font-weight: 550; white-space: nowrap; }
 
 .seg { position: relative; display: flex; background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; }
 .seg button { position: relative; z-index: 1; padding: 5px 13px; border-radius: 7px; color: var(--tx2); font-weight: 500; transition: color .2s; white-space: nowrap; }
