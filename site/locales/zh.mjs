@@ -60,7 +60,7 @@ export default {
     ],
   },
   faq: [
-    ['Diskshaper 真的免费吗？', '是的。没有付费版、没有试用期、没有广告。它是开源的，由 Hollowbit Studio 制作，他们也做了 Fileshaper 和 Captionshaper。'],
+    ['Diskshaper 真的免费吗？', '是的。没有付费版、没有试用期、没有广告。它是开源的，由 Hollowbit Studio 制作，他们也做了 Fileshaper、Captionshaper 和 Writeshaper。'],
     ['它会删掉我需要的东西吗？', '不会自作主张。只有你勾选的项目才会被处理，而且是移到废纸篓或回收站，不会直接删除。标为“先检查”的项目永远不会替你勾选。'],
     ['它会上传我的文件或追踪我吗？', '不会。扫描在你的电脑上进行，不会发送任何关于你或你文件的信息。应用唯一的联网是每天检查一次新版本，可以关闭。没有任何统计。'],
     ['为什么清理后空间还没释放？', '因为所有内容都先进废纸篓，方便撤销。确认无误后清空废纸篓或回收站，空间就回来了。'],
@@ -122,7 +122,7 @@ export default {
   },
   ui: {
     nav: { features: '功能', finder: '重复照片查找', guides: '指南', faq: '常见问题', about: '关于', download: '下载', skip: '跳到内容', language: '语言', menu: '菜单' },
-    studio: { by: 'Hollowbit 出品', badge: 'Hollowbit Studio 出品的免费应用', footH: 'Hollowbit Studio', footP: 'Diskshaper 由 Hollowbit Studio 制作，他们也做了 Fileshaper 和 Captionshaper。从不上传你文件的免费工具。', visit: '访问 hollowbit.dev' },
+    studio: { by: 'Hollowbit 出品', badge: 'Hollowbit Studio 出品的免费应用', footH: 'Hollowbit Studio', footP: 'Diskshaper 由 Hollowbit Studio 制作，他们也做了 Fileshaper、Captionshaper 和 Writeshaper。从不上传你文件的免费工具。', visit: '访问 hollowbit.dev' },
     footer: { tagline: '看清是什么吃掉了你的存储空间。只清理安全的内容。', product: '产品', help: '帮助', changelog: '更新日志', support: '支持', privacy: '隐私', made: '由 Hollowbit Studio 制作', oss: '免费开源', englishOnly: '英文' },
     home: { safeAlt: '清理后的 Diskshaper：75.6 GB 已移到废纸篓', shotAlt: 'Diskshaper：{x}', finderH: '重复照片查找', finderP: '选择一个文件夹，直接在浏览器里看到所有重复和相似的照片。不上传任何内容。', finderLink: '打开查找工具', guidesH: '指南', guidesLink: '全部指南', faqH: '常见问题', faqAll: '全部问题', endH: '把空间拿回来。', englishNote: '英文' },
     features: { title: '功能', h1: 'Diskshaper 能找到的一切', lead: '三个分组，大约二十种杂物，每种都用简单的话解释，并标为“安全”或“先检查”。', desc: 'Diskshaper 能找到的一切：着色器缓存、游戏残留、很久没玩的游戏、CrossOver 容器、剪辑缓存、渲染预览、重复素材和照片、旧安装包和大文件。', how: '工作原理', steps: [
@@ -134,7 +134,7 @@ export default {
     download: { title: '下载', version: '版本 {v}。免费，无需账号。', desc: '下载适用于 Mac（Apple Silicon 和 Intel）或 Windows 的 Diskshaper {v}。免费，无需账号，不上传任何内容。', mac: 'Mac', win: 'Windows', appleSilicon: 'Apple Silicon（M1 及更新）', intel: 'Intel 芯片 Mac', winBtn: '下载 Windows 版', first: '首次启动', checkH: '校验下载文件', checkP: '将下载文件的 SHA-256 校验值与下面的值对比。', sumMac: 'Mac（Apple Silicon）', sumIntel: 'Mac（Intel）', sumWin: 'Windows', all: '所有版本和源代码' },
     changelogPage: { title: '更新日志', h1: '更新日志', lead: '每个版本的变化。' },
     faqPage: { title: '常见问题', h1: '问题与解答' },
-    aboutPage: { title: '关于', whyH: '为什么做 Diskshaper', rulesH: '我们的原则', fs: '离线压缩、转换和修复任何文件。', cs: '离线生成自动字幕和 TikTok 风格字幕。' },
+    aboutPage: { title: '关于', whyH: '为什么做 Diskshaper', rulesH: '我们的原则', fs: '离线压缩、转换和修复任何文件。', cs: '离线生成自动字幕和 TikTok 风格字幕。', ws: '在任何应用中私密地修改和润色你的文字。' },
     supportPage: { title: '支持', h1: '支持', desc: '获取 Diskshaper 帮助或支持这个项目。', helpH: '遇到问题？', helpP: '发现了错误，或者 Diskshaper 应该找到却没找到的东西？请在 GitHub 上提交 issue，并说明你用的是 Mac 还是 PC。', helpBtn: '提交 issue', likeH: '喜欢吗？', likeP: 'Diskshaper 免费，并将一直免费。在 Ko-fi 打赏或在 GitHub 点个星，都能帮助它继续下去。', tip: '在 Ko-fi 打赏', star: '在 GitHub 点星' },
     privacyPage: { title: '隐私', h1: '隐私', updated: '更新于 {d}' },
     trash: { files: ['Media Cache Files', 'shadercache', 'Xcode_26.1.xip'], bin: '废纸篓', back: '放回原处' },

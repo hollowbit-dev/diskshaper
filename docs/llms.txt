@@ -1,6 +1,6 @@
 # Diskshaper
 
-> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper and Captionshaper). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
+> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper, Captionshaper and Writeshaper). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
 
 ## Key facts
 - Maker: Hollowbit Studio (Elvis Zygmanta), https://hollowbit.dev
@@ -34,7 +34,7 @@
 
 ## FAQ
 ### Is Diskshaper really free?
-Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper and Captionshaper.
+Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper, Captionshaper and Writeshaper.
 
 ### Will it delete something I need?
 Not on its own. Only items you tick are touched, and they go to the Trash or Recycle Bin, not straight to deletion. Items marked “Check first” are never ticked for you.

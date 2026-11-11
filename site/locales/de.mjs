@@ -60,7 +60,7 @@ export default {
     ],
   },
   faq: [
-    ['Ist Diskshaper wirklich kostenlos?', 'Ja. Es gibt keine Bezahlversion, keine Testphase und keine Werbung. Es ist Open Source und stammt von Hollowbit Studio, die auch Fileshaper und Captionshaper machen.'],
+    ['Ist Diskshaper wirklich kostenlos?', 'Ja. Es gibt keine Bezahlversion, keine Testphase und keine Werbung. Es ist Open Source und stammt von Hollowbit Studio, die auch Fileshaper, Captionshaper und Writeshaper machen.'],
     ['Kann es etwas löschen, das ich brauche?', 'Nicht von selbst. Nur angehakte Einträge werden angefasst, und sie landen im Papierkorb statt direkt gelöscht zu werden. „Erst prüfen“ wird nie für dich angehakt.'],
     ['Lädt es meine Dateien hoch oder trackt es mich?', 'Nein. Der Scan läuft auf deinem Computer, und nichts über dich oder deine Dateien wird verschickt. Online geht die App nur einmal am Tag, um nach einer neuen Version zu sehen, und das kannst du ausschalten. Keine Analysen.'],
     ['Warum ist der Platz nach dem Aufräumen noch nicht frei?', 'Weil alles zuerst in den Papierkorb geht, damit du es rückgängig machen kannst. Leere den Papierkorb, wenn du zufrieden bist, dann ist der Platz wieder da.'],
@@ -122,7 +122,7 @@ export default {
   },
   ui: {
     nav: { features: 'Funktionen', finder: 'Doppelte Fotos finden', guides: 'Anleitungen', faq: 'FAQ', about: 'Über', download: 'Download', skip: 'Zum Inhalt', language: 'Sprache', menu: 'Menü' },
-    studio: { by: 'von Hollowbit', badge: 'Eine kostenlose App von Hollowbit Studio', footH: 'Hollowbit Studio', footP: 'Diskshaper stammt von Hollowbit Studio, die auch Fileshaper und Captionshaper machen. Kostenlose Werkzeuge, die deine Dateien nie hochladen.', visit: 'hollowbit.dev besuchen' },
+    studio: { by: 'von Hollowbit', badge: 'Eine kostenlose App von Hollowbit Studio', footH: 'Hollowbit Studio', footP: 'Diskshaper stammt von Hollowbit Studio, die auch Fileshaper, Captionshaper und Writeshaper machen. Kostenlose Werkzeuge, die deine Dateien nie hochladen.', visit: 'hollowbit.dev besuchen' },
     footer: { tagline: 'Sieh, was deinen Speicher auffrisst. Räum nur auf, was sicher ist.', product: 'Produkt', help: 'Hilfe', changelog: 'Änderungen', support: 'Support', privacy: 'Datenschutz', made: 'Von Hollowbit Studio', oss: 'Kostenlos und Open Source', englishOnly: 'Englisch' },
     home: { safeAlt: 'Diskshaper nach dem Aufräumen: 75,6 GB in den Papierkorb verschoben', shotAlt: 'Diskshaper zeigt {x}', finderH: 'Doppelte-Fotos-Finder', finderP: 'Wähle einen Ordner und sieh jedes doppelte und ähnliche Foto, direkt im Browser. Nichts wird hochgeladen.', finderLink: 'Finder öffnen', guidesH: 'Anleitungen', guidesLink: 'Alle Anleitungen', faqH: 'Fragen', faqAll: 'Alle Fragen', endH: 'Hol dir deinen Platz zurück.', englishNote: 'auf Englisch' },
     features: { title: 'Funktionen', h1: 'Alles, was Diskshaper findet', lead: 'Drei Gruppen, rund zwanzig Arten von Ballast, jede in klaren Worten erklärt und als Sicher oder Erst prüfen markiert.', desc: 'Alles, was Diskshaper findet: Shader-Caches, Spielreste, ungespielte Spiele, CrossOver-Flaschen, Schnitt-Caches, Render-Vorschauen, doppeltes Material und Fotos, alte Installer und riesige Dateien.', how: 'So funktioniert es', steps: [
@@ -134,7 +134,7 @@ export default {
     download: { title: 'Download', version: 'Version {v}. Kostenlos, ohne Konto.', desc: 'Lade Diskshaper {v} für Mac (Apple Silicon und Intel) oder Windows. Kostenlos, ohne Konto, kein Upload.', mac: 'Mac', win: 'Windows', appleSilicon: 'Apple Silicon (M1 und neuer)', intel: 'Intel-Mac', winBtn: 'Für Windows laden', first: 'Erster Start', checkH: 'Download prüfen', checkP: 'Vergleiche die SHA-256-Prüfsumme der geladenen Datei mit diesen.', sumMac: 'Mac (Apple Silicon)', sumIntel: 'Mac (Intel)', sumWin: 'Windows', all: 'Alle Versionen und Quellcode' },
     changelogPage: { title: 'Änderungen', h1: 'Änderungen', lead: 'Was sich in jeder Version geändert hat.' },
     faqPage: { title: 'FAQ', h1: 'Fragen und Antworten' },
-    aboutPage: { title: 'Über', whyH: 'Warum Diskshaper', rulesH: 'Unsere Regeln', fs: 'Jede Datei komprimieren, umwandeln und reparieren, offline.', cs: 'Automatische Untertitel und TikTok-Captions, offline.' },
+    aboutPage: { title: 'Über', whyH: 'Warum Diskshaper', rulesH: 'Unsere Regeln', fs: 'Jede Datei komprimieren, umwandeln und reparieren, offline.', cs: 'Automatische Untertitel und TikTok-Captions, offline.', ws: 'Texte in jeder App korrigieren und verbessern, privat.' },
     supportPage: { title: 'Support', h1: 'Support', desc: 'Hilfe zu Diskshaper bekommen oder das Projekt unterstützen.', helpH: 'Etwas stimmt nicht?', helpP: 'Einen Fehler gefunden oder etwas, das Diskshaper finden sollte, aber nicht findet? Eröffne ein Issue auf GitHub. Sag dazu, ob du einen Mac oder PC nutzt.', helpBtn: 'Issue eröffnen', likeH: 'Gefällt es dir?', likeP: 'Diskshaper ist kostenlos und bleibt es. Ein Trinkgeld auf Ko-fi oder ein Stern auf GitHub hält es am Laufen.', tip: 'Trinkgeld auf Ko-fi', star: 'Stern auf GitHub' },
     privacyPage: { title: 'Datenschutz', h1: 'Datenschutz', updated: 'Aktualisiert am {d}' },
     trash: { files: ['Media Cache Files', 'shadercache', 'Xcode_26.1.xip'], bin: 'Papierkorb', back: 'Zurücklegen' },

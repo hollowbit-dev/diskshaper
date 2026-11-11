@@ -60,7 +60,7 @@ export default {
     ],
   },
   faq: [
-    ['Is Diskshaper really free?', 'Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper and Captionshaper.'],
+    ['Is Diskshaper really free?', 'Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper, Captionshaper and Writeshaper.'],
     ['Will it delete something I need?', 'Not on its own. Only items you tick are touched, and they go to the Trash or Recycle Bin, not straight to deletion. Items marked “Check first” are never ticked for you.'],
     ['Does it upload my files or track me?', 'No. The scan runs on your computer and nothing about you or your files is sent anywhere. The only time the app goes online is a once-a-day check for a new version, which you can turn off. There are no analytics.'],
     ['Why is the space not free yet after cleaning?', 'Because everything goes to the Trash first, so you can undo it. Empty the Trash or Recycle Bin when you are happy and the space comes back.'],
@@ -122,7 +122,7 @@ export default {
   },
   ui: {
     nav: { features: 'Features', finder: 'Duplicate photo finder', guides: 'Guides', faq: 'FAQ', about: 'About', download: 'Download', skip: 'Skip to content', language: 'Language', menu: 'Menu' },
-    studio: { by: 'by Hollowbit', badge: 'A free app by Hollowbit Studio', footH: 'Hollowbit Studio', footP: 'Diskshaper is made by Hollowbit Studio, who also make Fileshaper and Captionshaper. Free tools that never upload your files.', visit: 'Visit hollowbit.dev' },
+    studio: { by: 'by Hollowbit', badge: 'A free app by Hollowbit Studio', footH: 'Hollowbit Studio', footP: 'Diskshaper is made by Hollowbit Studio, who also make Fileshaper, Captionshaper and Writeshaper. Free tools that never upload your files.', visit: 'Visit hollowbit.dev' },
     footer: { tagline: 'See what’s eating your storage. Clean only what’s safe.', product: 'Product', help: 'Help', changelog: 'Changelog', support: 'Support', privacy: 'Privacy', made: 'Made by Hollowbit Studio', oss: 'Free and open source', englishOnly: 'English' },
     home: { safeAlt: 'Diskshaper after cleaning: 75.6 GB moved to the Trash', shotAlt: 'Diskshaper showing {x}', finderH: 'Duplicate photo finder', finderP: 'Pick a folder and see every duplicate and look-alike photo, right in your browser. Nothing is uploaded.', finderLink: 'Open the finder', guidesH: 'Guides', guidesLink: 'All guides', faqH: 'Questions', faqAll: 'All questions', endH: 'Get your space back.', englishNote: 'in English' },
     features: { title: 'Features', h1: 'Everything Diskshaper finds', lead: 'Three groups, about twenty kinds of clutter, each explained in plain words and marked Safe or Check first.', desc: 'Everything Diskshaper finds: shader caches, game leftovers, unplayed games, CrossOver bottles, editing caches, render previews, duplicate footage and photos, old installers and huge files.', how: 'How it works', steps: [
@@ -134,7 +134,7 @@ export default {
     download: { title: 'Download', version: 'Version {v}. Free, no account.', desc: 'Download Diskshaper {v} for Mac (Apple Silicon and Intel) or Windows. Free, no account, nothing uploaded.', mac: 'Mac', win: 'Windows', appleSilicon: 'Apple Silicon (M1 and newer)', intel: 'Intel Mac', winBtn: 'Download for Windows', first: 'First launch', checkH: 'Check your download', checkP: 'Compare the SHA-256 checksum of the file you downloaded with these.', sumMac: 'Mac (Apple Silicon)', sumIntel: 'Mac (Intel)', sumWin: 'Windows', all: 'All releases and source code' },
     changelogPage: { title: 'Changelog', h1: 'Changelog', lead: 'What changed in each version.' },
     faqPage: { title: 'FAQ', h1: 'Questions and answers' },
-    aboutPage: { title: 'About', whyH: 'Why Diskshaper', rulesH: 'House rules', fs: 'Compress, convert and fix any file, offline.', cs: 'Automatic subtitles and TikTok-style captions, offline.' },
+    aboutPage: { title: 'About', whyH: 'Why Diskshaper', rulesH: 'House rules', fs: 'Compress, convert and fix any file, offline.', cs: 'Automatic subtitles and TikTok-style captions, offline.', ws: 'Fix and polish your writing in any app, privately.' },
     supportPage: { title: 'Support', h1: 'Support', desc: 'Get help with Diskshaper or support the project.', helpH: 'Something wrong?', helpP: 'Found a bug, or something Diskshaper should find but doesn’t? Open an issue on GitHub. Say whether you use a Mac or a PC.', helpBtn: 'Open an issue', likeH: 'Like it?', likeP: 'Diskshaper is free and stays free. A tip on Ko-fi or a star on GitHub keeps it going.', tip: 'Tip on Ko-fi', star: 'Star on GitHub' },
     privacyPage: { title: 'Privacy', h1: 'Privacy', updated: 'Updated {d}' },
     trash: { files: ['Media Cache Files', 'shadercache', 'Xcode_26.1.xip'], bin: 'Trash', back: 'Put back' },

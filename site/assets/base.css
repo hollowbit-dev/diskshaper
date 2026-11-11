@@ -211,6 +211,7 @@ section.tight { padding: 24px 0 72px; }
 .card .ic { width: 24px; height: 24px; color: var(--acc); margin-bottom: 14px; }
 .card p { color: var(--tx2); font-size: 15px; margin: 0; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.two-col > .sib-ws { grid-column: 1 / -1; }
 .panel { display: block; position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 28px; overflow: hidden; }
 .panel > .ic { width: 26px; height: 26px; color: var(--acc); margin-bottom: 14px; }
 .panel p { color: var(--tx2); }
@@ -218,7 +219,7 @@ section.tight { padding: 24px 0 72px; }
 .link-panel::before { content: ""; position: absolute; inset: 0; background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 0%), rgba(91,157,255,.13), transparent 60%); opacity: 0; transition: opacity .3s; pointer-events: none; }
 .link-panel:hover { border-color: rgba(91,157,255,.35); transform: translateY(-3px); }
 .link-panel:hover::before { opacity: 1; }
-.sib-fs { --c: #f26a1b; } .sib-cs { --c: #c6ff3d; }
+.sib-fs { --c: #f26a1b; } .sib-cs { --c: #c6ff3d; } .sib-ws { --c: #f9457f; }
 .sib h3::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--c); margin-right: 10px; }
 .row { display: flex; gap: 10px; flex-wrap: wrap; }
 .extras { padding-top: 110px; }
