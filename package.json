@@ -12,11 +12,12 @@
   "scripts": {
     "start": "electron .",
     "scan": "node src/scanner.js",
-    "test": "node test/shots.mjs && node test/refuse.mjs",
+    "test": "node test/shots.mjs && node test/refuse.mjs && node test/packaged.mjs",
     "icon": "swift scripts/make-icon.swift assets/icon.png && sips -z 1024 1024 assets/icon.png",
     "dist:mac": "electron-builder --mac --publish never",
     "dist:win": "electron-builder --win --publish never",
-    "dist": "electron-builder --mac --win --publish never"
+    "dist": "electron-builder --mac --win --publish never",
+    "site": "node site/build.mjs"
   },
   "devDependencies": {
     "electron": "^33.4.11",
@@ -26,17 +27,38 @@
   "build": {
     "appId": "dev.hollowbit.diskshaper",
     "productName": "Diskshaper",
-    "directories": { "output": "dist" },
-    "files": ["src/**/*", "assets/icon.png", "package.json"],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/icon.png",
+      "package.json"
+    ],
     "mac": {
-      "target": [{ "target": "dmg", "arch": ["arm64", "x64"] }],
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
       "category": "public.app-category.utilities",
       "icon": "assets/icon.png",
       "identity": null,
       "artifactName": "Diskshaper-${version}-mac-${arch}.${ext}"
     },
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "icon": "assets/icon.png",
       "signAndEditExecutable": false
     },

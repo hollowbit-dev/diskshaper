@@ -1,0 +1,67 @@
+# Diskshaper
+
+> Diskshaper is a free, open-source storage cleaner for macOS and Windows by Hollowbit Studio. It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
+
+## Key facts
+- Price: free, open source, no account, no ads, no paid tier.
+- Platforms: macOS 11 or newer (Apple Silicon and Intel); Windows 10 and 11 (64-bit).
+- Privacy: the app makes no network requests. Scanning reads file names, sizes and dates locally.
+- Safety: never deletes outright (always Trash or Recycle Bin); never looks in macOS or Windows system folders; only Safe items are pre-selected.
+- Gaming: shader caches (Steam, NVIDIA, AMD, Intel, DirectX), Steam and Epic leftovers after uninstall, unfinished downloads, launcher caches, games not played in 3 months (Steam, Epic, Heroic) with uninstall links, empty and full CrossOver bottles on Mac.
+- Video editing: Premiere Pro media cache and peak files, After Effects disk cache, DaVinci Resolve CacheClip and proxies, Final Cut and CapCut caches, render previews and auto-saves next to projects, duplicate footage, old exports.
+- Everyone: app caches (with app icons), developer tool downloads, old installers and zips in Downloads, duplicate photos, files over 1 GB unchanged for 3 months, old screen recordings.
+
+## Links
+- [Download](https://hollowbit-dev.github.io/diskshaper/download.html)
+- [Features](https://hollowbit-dev.github.io/diskshaper/features.html)
+- [FAQ](https://hollowbit-dev.github.io/diskshaper/faq.html)
+- [Free duplicate photo finder (browser, no upload)](https://hollowbit-dev.github.io/diskshaper/tools/)
+- [Privacy](https://hollowbit-dev.github.io/diskshaper/privacy.html)
+- [Source code](https://github.com/hollowbit-dev/diskshaper)
+
+## Guides
+- [How to clear your shader cache](https://hollowbit-dev.github.io/diskshaper/guides/clear-shader-cache.html): Shader caches are pre-built graphics data that games and your GPU driver make so they don’t stutter. They are safe to delete: they are rebuilt the next time you play, with a little stutter for the first few minutes. Diskshaper finds the Steam, NVIDIA, AMD, Intel and DirectX caches in one scan and moves them to the Recycle Bin.
+- [How to remove Steam leftovers after uninstalling a game](https://hollowbit-dev.github.io/diskshaper/guides/steam-leftover-files.html): When you uninstall a game, Steam deletes the files it installed, but often leaves the folder with anything the game created itself: mods, configs, logs and downloaded content. Diskshaper compares the folders in your Steam library with the games Steam still lists, and shows the ones nothing uses any more.
+- [How to clear the Premiere Pro media cache](https://hollowbit-dev.github.io/diskshaper/guides/clear-premiere-pro-media-cache.html): Premiere Pro makes cache files (conformed audio, peak files and indexes) for every clip you import, and never removes them on its own unless you set it to. They are safe to delete: Premiere makes them again when you open a project. In Premiere, go to Settings, Media Cache, and press Delete. Or let Diskshaper find them, along with the render preview folders next to your projects.
+- [How to clear the DaVinci Resolve cache](https://hollowbit-dev.github.io/diskshaper/guides/clear-davinci-resolve-cache.html): DaVinci Resolve stores its render cache, optimized media and proxies in a CacheClip folder inside the working folder set in its preferences. These are all made from your original footage and can be made again. In Resolve, use Playback, Delete Render Cache, All. To catch the rest, and caches from old projects, scan with Diskshaper.
+- [How to find duplicate photos for free](https://hollowbit-dev.github.io/diskshaper/guides/find-duplicate-photos.html): Duplicate photos pile up from phone imports, downloads and copies made “just in case”. The quickest free way: open the Diskshaper duplicate photo finder in your browser, pick a folder, and it shows every exact copy and look-alike side by side. Your photos never leave your computer. To check your whole drive at once, use the Diskshaper app.
+- [What is taking up space on my Mac?](https://hollowbit-dev.github.io/diskshaper/guides/whats-taking-up-space-on-mac.html): On most Macs the big items are apps and games, video, old iPhone backups, caches and downloads you forgot about. System Settings, General, Storage shows rough totals but not what you can safely remove. Diskshaper scans your Mac in a few seconds, shows what is taking space in plain groups, and marks what is safe to clean.
+- [How to free up disk space on Windows 11](https://hollowbit-dev.github.io/diskshaper/guides/free-up-space-windows-11.html): Start with Windows’ own Cleanup recommendations in Settings, System, Storage: it clears temporary files and old Windows updates. Then scan with Diskshaper for what Windows does not know about: shader caches, Steam and Epic leftovers, Premiere and Resolve caches, old installers and duplicate photos. Everything goes to the Recycle Bin, so you can undo it.
+- [How to delete CrossOver bottles you no longer need](https://hollowbit-dev.github.io/diskshaper/guides/delete-crossover-bottles.html): Every CrossOver bottle is a small Windows install, about 300 MB empty and often several gigabytes once runtimes are added. Bottles stay after you delete the game inside. In CrossOver, select the bottle and choose Delete Bottle. Diskshaper finds bottles with no game left inside and lists them as Safe.
+
+## FAQ
+### Is Diskshaper really free?
+Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper and Captionshaper.
+
+### Will it delete something I need?
+Not on its own. Only items you tick are touched, and they go to the Trash or Recycle Bin, not straight to deletion. Items marked “Check first” are never ticked for you.
+
+### Does it upload my files or track me?
+No. The scan runs on your computer and the app makes no network requests at all. There are no analytics.
+
+### Why is the space not free yet after cleaning?
+Because everything goes to the Trash first, so you can undo it. Empty the Trash or Recycle Bin when you are happy and the space comes back.
+
+### Which computers does it run on?
+macOS 11 Big Sur or newer (Apple Silicon and Intel), and Windows 10 and 11 (64-bit).
+
+### How is it different from CleanMyMac, CCleaner or DaisyDisk?
+Those are good tools, but most of their cleaning sits behind a subscription or licence, and DaisyDisk shows you sizes without telling you what is safe. Diskshaper is free, explains every group in plain words, and knows about games and editing apps, which general cleaners mostly skip.
+
+### Does cleaning shader caches hurt my games?
+No. Shader caches are rebuilt the next time you play. You might see a little stutter for the first few minutes while that happens, then it is back to normal.
+
+### Will removing a game’s leftover folder delete my saves?
+Most games store saves in your Documents or AppData folder or in Steam Cloud, not in the game folder. Diskshaper only marks a folder as a leftover when Steam or Epic no longer lists the game. If a game kept saves in its own folder, they go to the Trash with it, so you can still get them back.
+
+### Why does it list games instead of deleting them?
+Removing a game through its launcher lets the launcher tidy up properly and keeps your library correct. Diskshaper shows you which games you have not played and opens the launcher’s uninstall for you.
+
+### Why does macOS ask for permission to read my Desktop or Documents?
+macOS asks before any app looks inside those folders. Diskshaper needs it to find old installers, big videos and duplicate photos there. You can say no and it will still check caches and games.
+
+### Why does Windows show a SmartScreen warning?
+Code-signing certificates cost money every year, and Diskshaper is a free project. Click “More info”, then “Run anyway”. The source code is public on GitHub if you want to check it.
+
+### Can it find duplicate photos without installing anything?
+Yes. The free duplicate photo finder on this website runs in your browser and never uploads your photos.

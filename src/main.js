@@ -3,7 +3,12 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const { execFile } = require('child_process');
-const { scan, diskInfo } = require('./scanner');
+const real = require('./scanner');
+const demo = require('./demo');
+// Demo mode shows made-up results for screenshots. It never touches real files.
+const DEMO = process.env.DISKSHAPER_DEMO === '1';
+const scan = DEMO ? demo.scan : real.scan;
+const diskInfo = DEMO ? async () => ({ total: 494.38e9, free: 21.4e9 }) : real.diskInfo;
 
 const IS_MAC = process.platform === 'darwin';
 let win;
@@ -39,12 +44,16 @@ ipcMain.handle('scan', async (e) => {
     if (p.cat || t - last > 50) { last = t; e.sender.send('scan-progress', p); }
   });
   allowed = new Set(res.cats.filter((c) => !c.action).flatMap((c) => c.items.map((i) => i.path)));
-  visible = new Set(res.cats.flatMap((c) => c.items.flatMap((i) => [i.path, i.art, i.keep].filter(Boolean))));
+  visible = new Set(res.cats.flatMap((c) => c.items.flatMap((i) => [i.path, i.art, i.keep, i.thumb].filter(Boolean))));
   return res;
 });
 
 ipcMain.handle('clean', async (e, paths) => {
   const done = [], failed = [];
+  if (DEMO) {
+    for (const p of paths) { done.push(p); e.sender.send('clean-progress', { done: done.length, total: paths.length, path: p }); await new Promise((r) => setTimeout(r, 25)); }
+    return { done, failed, disk: await diskInfo() };
+  }
   for (const p of paths) {
     if (!allowed.has(p)) { failed.push({ path: p, error: 'Not part of the last scan' }); continue; }
     try {
@@ -87,6 +96,7 @@ async function thumb(p) {
 async function picture(p, kind) {
   const key = kind + '|' + p;
   if (picCache.has(key)) return picCache.get(key);
+  if (p.startsWith('demo:')) return demo.picture(p);
   let url = null;
   try {
     if (kind === 'art') {

@@ -285,7 +285,7 @@ const io = new IntersectionObserver((ents) => {
   }
 }, { rootMargin: '200px' });
 function loadPicture(img, i, kind) {
-  const p = kind === 'art' ? (i.art || i.path) : i.path;
+  const p = kind === 'art' ? (i.art || i.path) : (i.thumb || i.path);
   const k = kind === 'art' ? (i.art ? 'art' : 'icon') : kind;
   img._pic = { p, kind: k };
   io.observe(img);
