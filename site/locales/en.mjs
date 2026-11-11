@@ -1,7 +1,6 @@
-// Everything the Diskshaper website says, in one place (English).
-export const UPDATED = '2026-11-11';
-
-export const T = {
+// English. Every other locale has the same shape.
+export default {
+  lang: 'en', html: 'en', name: 'English', date: '11 November 2026',
   meta: {
     title: 'Diskshaper: free storage cleaner for Mac and Windows',
     desc: 'See what is eating your storage and clean only what is safe. Shader caches, Steam leftovers, Premiere and Resolve caches, old installers and duplicate photos. Free, offline, everything goes to the Trash.',
@@ -9,6 +8,7 @@ export const T = {
   hero: {
     eyebrow: 'Free for Mac and Windows',
     h1: 'See what’s eating your storage.',
+    hl: 'storage',
     sub: 'Diskshaper scans your drive in seconds and sorts what it finds into plain groups: shader caches and game leftovers, editing caches and old renders, installers and duplicate photos. One click moves the safe stuff to the Trash, so you can always undo it.',
     mac: 'Download for Mac',
     win: 'Download for Windows',
@@ -17,7 +17,8 @@ export const T = {
   groups: [
     {
       id: 'gaming', h: 'For gamers', img: 'app-games',
-      p: 'Games are the biggest thing on most drives, and they leave a mess when they go. Diskshaper reads Steam, Epic, Heroic and CrossOver directly, so it knows which folders still belong to a game and which were left behind.',
+      title: 'Games are the biggest thing on most drives, and they leave a mess when they go.',
+      p: 'Diskshaper reads Steam, Epic, Heroic and CrossOver directly, so it knows which folders still belong to a game and which were left behind.',
       items: [
         ['Shader caches', 'Graphics data your games and GPU driver rebuild on their own.'],
         ['Leftovers from uninstalled games', 'Folders Steam and Epic left behind after an uninstall.'],
@@ -27,7 +28,8 @@ export const T = {
     },
     {
       id: 'editing', h: 'For video editors', img: 'app-creator-cache',
-      p: 'Editing apps quietly keep tens of gigabytes of cache, previews and proxies. Diskshaper finds them in the app folders and next to your projects, and tells you which ones the app will simply make again.',
+      title: 'Editing apps quietly keep tens of gigabytes of cache, previews and proxies.',
+      p: 'Diskshaper finds them in the app folders and next to your projects, and tells you which ones the app will simply make again.',
       items: [
         ['Premiere, After Effects and Resolve caches', 'Media cache, peak files, render cache and proxies.'],
         ['Render previews next to projects', 'The preview folders Premiere and Final Cut save beside your project files.'],
@@ -37,7 +39,8 @@ export const T = {
     },
     {
       id: 'everyone', h: 'For everyone', img: 'app-photos',
-      p: 'The everyday clutter: setup files you ran once, the same photo saved twice, and that 40 GB backup zip from your old laptop.',
+      title: 'The everyday clutter: setup files you ran once, the same photo saved twice, and that 40 GB backup zip from your old laptop.',
+      p: '',
       items: [
         ['Old installers', 'DMG, PKG, EXE and MSI files in Downloads that already did their job.'],
         ['Duplicate photos', 'Exact copies, shown side by side with a thumbnail.'],
@@ -114,5 +117,27 @@ export const T = {
       ['This website', 'Hosted on GitHub Pages, which keeps standard server logs. We add no analytics, cookies or trackers. The duplicate photo finder runs in your browser and never uploads your photos.'],
       ['Contact', 'Questions about privacy: open an issue on GitHub.'],
     ],
+  },
+  ui: {
+    nav: { features: 'Features', finder: 'Duplicate photo finder', guides: 'Guides', faq: 'FAQ', about: 'About', download: 'Download', skip: 'Skip to content', language: 'Language', menu: 'Menu' },
+    studio: { by: 'by Hollowbit', badge: 'A free app by Hollowbit Studio', footH: 'Hollowbit Studio', footP: 'Diskshaper is made by Hollowbit Studio, who also make Fileshaper and Captionshaper. Free tools that never upload your files.', visit: 'Visit hollowbit.dev' },
+    footer: { tagline: 'See what’s eating your storage. Clean only what’s safe.', product: 'Product', help: 'Help', changelog: 'Changelog', support: 'Support', privacy: 'Privacy', made: 'Made by Hollowbit Studio', oss: 'Free and open source', englishOnly: 'English' },
+    home: { safeAlt: 'Diskshaper after cleaning: 75.6 GB moved to the Trash', shotAlt: 'Diskshaper showing {x}', finderH: 'Duplicate photo finder', finderP: 'Pick a folder and see every duplicate and look-alike photo, right in your browser. Nothing is uploaded.', finderLink: 'Open the finder', guidesH: 'Guides', guidesLink: 'All guides', faqH: 'Questions', faqAll: 'All questions', endH: 'Get your space back.', englishNote: 'in English' },
+    features: { title: 'Features', h1: 'Everything Diskshaper finds', lead: 'Three groups, about twenty kinds of clutter, each explained in plain words and marked Safe or Check first.', desc: 'Everything Diskshaper finds: shader caches, game leftovers, unplayed games, CrossOver bottles, editing caches, render previews, duplicate footage and photos, old installers and huge files.', how: 'How it works', steps: [
+      ['Scan', 'Diskshaper reads your user folders, app caches and game libraries. It does not look in macOS or Windows system folders. On a typical computer this takes a few seconds.'],
+      ['Sort', 'Everything it finds is put into a group, with the reason it is there and whether the app that made it will make it again.'],
+      ['Pick', 'Safe items are ticked for you. Open any group to see each item, with game cover art, app icons and photo thumbnails, and change what is ticked.'],
+      ['Move to the Trash', 'Nothing is deleted. You can put anything back until you empty the Trash or Recycle Bin.'],
+    ] },
+    download: { title: 'Download', version: 'Version {v}. Free, no account.', desc: 'Download Diskshaper {v} for Mac (Apple Silicon and Intel) or Windows. Free, no account, nothing uploaded.', mac: 'Mac', win: 'Windows', appleSilicon: 'Apple Silicon (M1 and newer)', intel: 'Intel Mac', winBtn: 'Download for Windows', first: 'First launch', checkH: 'Check your download', checkP: 'Compare the SHA-256 checksum of the file you downloaded with these.', sumMac: 'Mac (Apple Silicon)', sumIntel: 'Mac (Intel)', sumWin: 'Windows', all: 'All releases and source code' },
+    changelogPage: { title: 'Changelog', h1: 'Changelog', lead: 'What changed in each version.' },
+    faqPage: { title: 'FAQ', h1: 'Questions and answers' },
+    aboutPage: { title: 'About', whyH: 'Why Diskshaper', rulesH: 'House rules', fs: 'Compress, convert and fix any file, offline.', cs: 'Automatic subtitles and TikTok-style captions, offline.' },
+    supportPage: { title: 'Support', h1: 'Support', desc: 'Get help with Diskshaper or support the project.', helpH: 'Something wrong?', helpP: 'Found a bug, or something Diskshaper should find but doesn’t? Open an issue on GitHub. Say whether you use a Mac or a PC.', helpBtn: 'Open an issue', likeH: 'Like it?', likeP: 'Diskshaper is free and stays free. A tip on Ko-fi or a star on GitHub keeps it going.', tip: 'Tip on Ko-fi', star: 'Star on GitHub' },
+    privacyPage: { title: 'Privacy', h1: 'Privacy', updated: 'Updated {d}' },
+    trash: { files: ['Media Cache Files', 'shadercache', 'Xcode_26.1.xip'], bin: 'Trash', back: 'Put back' },
+    nf: { title: 'Not found', h1: 'Nothing here.', p: 'This page doesn’t exist. Maybe it was cleaned up.', home: 'Go home' },
+    demo: { aria: 'Animation of Diskshaper scanning a drive and moving safe items to the Trash', found: 'Found', safeToClean: 'Safe to clean', selected: 'selected', move: 'Move to Trash', moved: 'moved to the Trash. Put anything back until you empty it.', safe: 'Safe', check: 'Check first',
+      cats: ['Shader caches', 'Video editing caches', 'Leftovers from uninstalled games', 'App caches', 'Render previews', 'Old installers', 'Duplicate photos', 'Duplicate footage', 'Games you stopped playing'] },
   },
 };

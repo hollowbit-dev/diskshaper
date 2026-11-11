@@ -2,10 +2,27 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DS = window.DS || { lang: 'en', langs: ['en'] };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
+
+  // First visit: open the visitor's own language once. A manual choice always wins afterwards.
+  if (!store.get('ds-lang') && DS.lang === 'en' && !DS.english) {
+    const pref = (navigator.languages || [navigator.language || 'en']).map((l) => l.toLowerCase().slice(0, 2)).find((l) => DS.langs.includes(l));
+    store.set('ds-lang', pref || 'en');
+    if (pref && pref !== 'en') { location.replace(`${pref}/${location.pathname.split('/').pop()}${location.hash}`); return; }
+  }
+  $$('[data-set-lang]').forEach((a) => a.addEventListener('click', () => store.set('ds-lang', a.dataset.setLang)));
+  document.addEventListener('click', (e) => { const open = $('details.lang[open]'); if (open && !open.contains(e.target)) open.removeAttribute('open'); });
 
   // nav: border once scrolled, menu on small screens
   const nav = $('.nav');
-  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
+  // The nav's storage meter empties as you scroll down the page, right segment first.
+  const meter = $$('.nav-meter i');
+  const onScroll = () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    const p = h > 0 ? Math.min(1, scrollY / h) : 0;
+    meter.forEach((m, i) => { const start = (meter.length - 1 - i) / meter.length; m.style.setProperty('--k', Math.max(0, Math.min(1, 1 - (p - start) * meter.length)).toFixed(3)); });
+  };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
   const menu = $('.menu-btn'), links = $('#links');
   menu?.addEventListener('click', () => { const o = links.classList.toggle('open'); menu.setAttribute('aria-expanded', o); });
@@ -23,7 +40,37 @@
 
   // reveal on scroll
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
-  $$('.reveal').forEach((el) => io.observe(el));
+  $$('.reveal, .demo-stage').forEach((el) => io.observe(el));
+
+  // Spotlight that follows the pointer on link panels.
+  $$('.link-panel').forEach((c) => c.addEventListener('pointermove', (e) => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', `${e.clientX - r.left}px`); c.style.setProperty('--my', `${e.clientY - r.top}px`); }));
+
+  // Trash demo: files drop into the Trash, then one is put back.
+  const td = $('.tdemo');
+  if (td && !reduce) {
+    const files = $$('.td-file', td), bin = $('.td-bin', td), back = $('.td-back', td), count = $('[data-td-count]', td);
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    let seen = false;
+    new IntersectionObserver((es) => { seen = es[0].isIntersecting; }, { threshold: 0.3 }).observe(td);
+    (async () => {
+      for (;;) {
+        files.forEach((f) => { f.style.transform = ''; f.style.opacity = ''; }); bin.classList.remove('full'); back.classList.remove('on');
+        await wait(900); while (!seen) await wait(300);
+        const b = bin.getBoundingClientRect();
+        for (let i = 0; i < files.length; i++) {
+          const r = files[i].getBoundingClientRect();
+          files[i].style.transform = `translate(${b.left + b.width / 2 - r.left - r.width / 2}px, ${b.top + b.height / 2 - r.top - r.height / 2}px) scale(.3)`;
+          files[i].style.opacity = '0';
+          await wait(520);
+          count.textContent = i + 1; bin.classList.add('full', 'bump'); await wait(160); bin.classList.remove('bump');
+        }
+        await wait(700); back.classList.add('on'); await wait(900);
+        back.classList.add('press'); await wait(150); back.classList.remove('press');
+        files[0].style.transform = ''; files[0].style.opacity = ''; count.textContent = files.length - 1;
+        await wait(2600);
+      }
+    })();
+  }
 
   // ---------- hero demo ----------
   const demo = $('.demo');

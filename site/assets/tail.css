@@ -1,0 +1,71 @@
+/* ---------- footer ---------- */
+.foot { position: relative; padding: 40px 0 0; color: var(--tx2); font-size: 14.5px; overflow: hidden; }
+.studio-card { display: flex; align-items: center; gap: 20px; padding: 24px 26px; border-radius: 22px; background: var(--card); border: 1px solid var(--line); margin-bottom: 56px; transition: border-color .25s, transform .35s var(--ease); }
+.studio-card:hover { border-color: var(--line2); transform: translateY(-2px); }
+.studio-mark { width: 52px; height: 52px; border-radius: 15px; display: grid; place-items: center; background: #f4f4f1; color: #0b0b0d; flex: none; }
+.studio-mark .hb { width: 26px; height: 26px; }
+.studio-txt { display: grid; gap: 3px; }
+.studio-txt b { color: var(--tx); font-size: 16px; }
+.studio-go { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--tx); font-weight: 580; white-space: nowrap; }
+.studio-go .ic { width: 16px; height: 16px; transition: transform .2s var(--ease); }
+.studio-card:hover .studio-go .ic { transform: translateX(4px); }
+.foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+.foot-brand p { margin-top: 12px; color: var(--tx3); max-width: 280px; }
+.foot-col { display: flex; flex-direction: column; gap: 9px; }
+.foot-col a:hover { color: var(--tx); }
+.foot-h { color: var(--tx); font-weight: 600; margin: 0 0 4px; }
+.foot-legal { display: flex; justify-content: space-between; margin-top: 48px; color: var(--tx3); font-size: 13px; }
+.foot-legal a:hover { color: var(--tx); }
+.foot-word { font-size: clamp(64px, 17vw, 240px); font-weight: 760; letter-spacing: -.06em; line-height: .8; text-align: center; margin-top: 40px; color: transparent; background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,0) 85%); -webkit-background-clip: text; background-clip: text; user-select: none; transform: translateY(12%); }
+
+/* ---------- motion ---------- */
+.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: calc(var(--d, 0) * 80ms); }
+.js .reveal.in { opacity: 1; transform: none; }
+.hero h1.reveal { transition-delay: .08s; } .hero .lede.reveal { transition-delay: .16s; } .hero .note.reveal { transition-delay: .3s; }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: .25s var(--ease) both vtout; }
+::view-transition-new(root) { animation: .45s var(--ease) both vtin; }
+@keyframes vtout { to { opacity: 0; } }
+@keyframes vtin { from { opacity: 0; transform: translateY(8px); } }
+
+/* ---------- small screens ---------- */
+@media (max-width: 1040px) {
+  .links { display: none; position: absolute; top: 68px; left: 0; right: 0; background: #12141a; border: 1px solid var(--line2); border-radius: 16px; flex-direction: column; padding: 8px; box-shadow: 0 20px 50px rgba(0,0,0,.6); }
+  .links.open { display: flex; animation: pop .25s var(--ease); }
+  .menu-btn { display: grid; place-items: center; }
+  .split-in, .two-col, .dl-grid, .steps, .facts, .safe-in { grid-template-columns: 1fr; gap: 36px; }
+  .split-in.rev .split-text { order: 0; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+  .demo-rows { grid-template-columns: 1fr; }
+  .demo-row:nth-child(n+6) { display: none; }
+  .release { grid-template-columns: 1fr; gap: 8px; }
+}
+@media (max-width: 640px) {
+  section { padding: 72px 0; }
+  .wrap { padding: 0 18px; }
+  .nav { top: 8px; padding: 0 8px; }
+  .nav-in { gap: 10px; padding: 0 6px 0 12px; }
+  .by span { display: none; }
+  .by { padding: 5px; }
+  .nav-end .btn-primary { display: none; }
+  .hero { padding-top: 52px; }
+  .eyebrow .sep, .eyebrow .muted { display: none; }
+  .band, .safe-band { margin-left: 8px; margin-right: 8px; border-radius: 24px; }
+  .grid2 { grid-template-columns: 1fr; }
+  .cta .btn { width: 100%; }
+  .demo-body { padding: 18px 16px 84px; min-height: 420px; }
+  .demo-big { font-size: 34px; }
+  .demo-row em { display: none; }
+  .demo-row { grid-template-columns: 9px 1fr 64px; }
+  .tdemo { height: 250px; }
+  .studio-card { flex-wrap: wrap; }
+  .studio-go { margin-left: 0; }
+  .kv th { width: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
+  .tk-track { animation: none; }
+  .demo { transform: none; }
+}

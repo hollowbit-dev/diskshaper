@@ -1,10 +1,12 @@
 # Diskshaper
 
-> Diskshaper is a free, open-source storage cleaner for macOS and Windows by Hollowbit Studio. It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
+> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper and Captionshaper). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
 
 ## Key facts
+- Maker: Hollowbit Studio (Elvis Zygmanta), https://hollowbit.dev
 - Price: free, open source, no account, no ads, no paid tier.
 - Platforms: macOS 11 or newer (Apple Silicon and Intel); Windows 10 and 11 (64-bit).
+- Website languages: English, Spanish, French, German, Russian, Chinese.
 - Privacy: the app makes no network requests. Scanning reads file names, sizes and dates locally.
 - Safety: never deletes outright (always Trash or Recycle Bin); never looks in macOS or Windows system folders; only Safe items are pre-selected.
 - Gaming: shader caches (Steam, NVIDIA, AMD, Intel, DirectX), Steam and Epic leftovers after uninstall, unfinished downloads, launcher caches, games not played in 3 months (Steam, Epic, Heroic) with uninstall links, empty and full CrossOver bottles on Mac.
@@ -18,6 +20,7 @@
 - [Free duplicate photo finder (browser, no upload)](https://hollowbit.dev/diskshaper/tools/)
 - [Privacy](https://hollowbit.dev/diskshaper/privacy.html)
 - [Source code](https://github.com/hollowbit-dev/diskshaper)
+- [Hollowbit Studio](https://hollowbit.dev/)
 
 ## Guides
 - [How to clear your shader cache](https://hollowbit.dev/diskshaper/guides/clear-shader-cache.html): Shader caches are pre-built graphics data that games and your GPU driver make so they don’t stutter. They are safe to delete: they are rebuilt the next time you play, with a little stutter for the first few minutes. Diskshaper finds the Steam, NVIDIA, AMD, Intel and DirectX caches in one scan and moves them to the Recycle Bin.
