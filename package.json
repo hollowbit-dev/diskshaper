@@ -7,7 +7,7 @@
   "private": true,
   "author": "Hollowbit Studio",
   "license": "MIT",
-  "homepage": "https://hollowbit-dev.github.io/diskshaper/",
+  "homepage": "https://hollowbit.dev/diskshaper/",
   "repository": "github:hollowbit-dev/diskshaper",
   "scripts": {
     "start": "electron .",

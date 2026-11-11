@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hollowbit-dev.github.io/diskshaper/sitemap.xml
+Sitemap: https://hollowbit.dev/diskshaper/sitemap.xml

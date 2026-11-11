@@ -2,7 +2,7 @@
 
 See what's eating your storage and clean only what's safe. A free storage cleaner for Mac and Windows by [Hollowbit Studio](https://hollowbit.dev).
 
-**[Download](https://hollowbit-dev.github.io/diskshaper/download.html)** · [Website](https://hollowbit-dev.github.io/diskshaper/) · [Duplicate photo finder](https://hollowbit-dev.github.io/diskshaper/tools/)
+**[Download](https://hollowbit.dev/diskshaper/download.html)** · [Website](https://hollowbit.dev/diskshaper/) · [Duplicate photo finder](https://hollowbit.dev/diskshaper/tools/)
 
 ![Diskshaper](site/assets/img/app-overview.webp)
 

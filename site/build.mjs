@@ -1,4 +1,4 @@
-// Builds the Diskshaper website into docs/ (GitHub Pages: hollowbit-dev.github.io/diskshaper).
+// Builds the Diskshaper website into docs/ (GitHub Pages, served at hollowbit.dev/diskshaper).
 // Pages, search guides, the browser duplicate photo finder, 404, sitemap, robots and llms.txt.
 // Run: npm run site
 import fs from 'fs';
@@ -12,7 +12,7 @@ const root = path.resolve(here, '..');
 const out = path.join(root, 'docs');
 const V = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version;
 const SITE = {
-  url: 'https://hollowbit-dev.github.io/diskshaper', base: '/diskshaper/',
+  url: 'https://hollowbit.dev/diskshaper', base: '/diskshaper/',
   github: 'https://github.com/hollowbit-dev/diskshaper', tip: 'https://ko-fi.com/hollowbit',
   studio: 'https://hollowbit.dev', fileshaper: 'https://fileshaper.app', captionshaper: 'https://captionshaper.app',
 };
