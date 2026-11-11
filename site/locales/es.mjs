@@ -62,7 +62,7 @@ export default {
   faq: [
     ['¿Diskshaper es gratis de verdad?', 'Sí. No hay versión de pago, ni prueba, ni anuncios. Es de código abierto y lo hace Hollowbit Studio, que también hace Fileshaper y Captionshaper.'],
     ['¿Puede borrar algo que necesito?', 'No por su cuenta. Solo se tocan los elementos que marcas, y van a la Papelera, no se borran directamente. Lo marcado como «Revisar antes» nunca se selecciona por ti.'],
-    ['¿Sube mis archivos o me rastrea?', 'No. El análisis se hace en tu ordenador y la app no hace ninguna conexión a internet. No hay analíticas.'],
+    ['¿Sube mis archivos o me rastrea?', 'No. El análisis se hace en tu ordenador y no se envía nada sobre ti ni sobre tus archivos. La app solo se conecta una vez al día para buscar una versión nueva, y puedes desactivarlo. No hay analíticas.'],
     ['¿Por qué no tengo el espacio libre después de limpiar?', 'Porque todo va primero a la Papelera, para que puedas deshacerlo. Vacía la Papelera cuando estés conforme y recuperarás el espacio.'],
     ['¿En qué ordenadores funciona?', 'macOS 11 Big Sur o posterior (Apple Silicon e Intel), y Windows 10 y 11 (64 bits).'],
   ],
@@ -81,9 +81,10 @@ export default {
     winReq: 'Windows 10 u 11, 64 bits.',
     macSteps: ['Abre el .dmg descargado y arrastra Diskshaper a Aplicaciones.', 'La primera vez, haz clic derecho en Diskshaper, elige Abrir y luego Abrir otra vez.', 'Pulsa Analizar. Si macOS pide acceso al Escritorio, Documentos o Descargas, permítelo para que Diskshaper encuentre archivos grandes ahí.'],
     winSteps: ['Ejecuta el instalador.', 'Si aparece SmartScreen, haz clic en «Más información» y luego en «Ejecutar de todas formas».', 'Abre Diskshaper desde el menú Inicio y pulsa Analizar.'],
-    why: 'Los avisos aparecen porque Diskshaper no está firmado con un certificado de pago. Es gratis, de código abierto y no se conecta a internet.',
+    why: 'Los avisos aparecen porque Diskshaper no está firmado con un certificado de pago. Es gratis y de código abierto, así que cualquiera puede leer todo su código.',
   },
   changelog: [
+    { v: '1.0.2', date: '11 de noviembre de 2026', name: 'Aviso de actualizaciones', items: ['Diskshaper ahora comprueba una vez al día si hay una versión nueva y muestra un pequeño aviso con el enlace de descarga. Solo se pregunta el número de versión; puedes desactivarlo en la pantalla de inicio.'] },
     { v: '1.0.1', date: '11 de noviembre de 2026', name: 'Pequeña actualización', items: ['«de Hollowbit Studio» en la app ahora abre hollowbit.dev, la casa de las apps gratuitas de Hollowbit.'] },
     { v: '1.0.0', date: '11 de noviembre de 2026', name: 'Primera versión', items: [
       'Analiza tu disco en pocos segundos y ordena lo que encuentra en Para todos, Gaming y Edición de vídeo.',
@@ -104,17 +105,17 @@ export default {
     ],
     rules: [
       ['Sin anuncios ni cuentas', 'Ábrelo y úsalo.'],
-      ['Sin rastreo', 'La app no hace ninguna conexión a internet.'],
+      ['Sin rastreo', 'Nunca se envía nada sobre ti ni tus archivos. La única conexión es una búsqueda diaria de actualizaciones que puedes desactivar.'],
       ['Se puede deshacer', 'Todo va a la Papelera.'],
       ['Código abierto', 'Lee el código en GitHub.'],
     ],
   },
   privacy: {
-    short: 'Diskshaper analiza archivos en tu ordenador y nunca envía nada a ningún sitio. La app no se conecta a internet. Esta web no tiene analíticas ni cookies.',
+    short: 'Diskshaper analiza archivos en tu ordenador y nunca los envía a ningún sitio. Su única conexión es una búsqueda diaria de una versión nueva, que puedes desactivar. Esta web no tiene analíticas ni cookies.',
     sections: [
       ['Lo que lee la app', 'Nombres, tamaños y fechas de archivos en tus carpetas de usuario, cachés de apps y bibliotecas de juegos, y las listas de juegos que guardan Steam, Epic, Heroic y CrossOver. Para encontrar duplicados lee archivos y compara su contenido. Todo queda en la memoria de tu ordenador y desaparece al cerrar la app.'],
       ['Lo que cambia la app', 'Nada, hasta que pulsas el botón de limpiar. Entonces mueve los elementos marcados a la Papelera con la función de tu propio sistema.'],
-      ['Red', 'La app no se conecta a internet. No hay búsqueda de actualizaciones, analíticas ni informes de errores. Botones como «Desinstalar en Steam» abren tu launcher en tu ordenador.'],
+      ['Red', 'Una vez al día, Diskshaper pregunta a GitHub el número de la última versión. Es su única conexión: no se envía nada sobre ti, tu ordenador ni tus archivos, y puedes desactivarlo en la pantalla de inicio. No hay analíticas ni informes de errores. Botones como «Desinstalar en Steam» abren tu launcher en tu ordenador.'],
       ['Esta web', 'Alojada en GitHub Pages, que guarda registros de servidor estándar. No añadimos analíticas, cookies ni rastreadores. El buscador de fotos duplicadas funciona en tu navegador y nunca sube tus fotos.'],
       ['Contacto', 'Preguntas sobre privacidad: abre una incidencia en GitHub.'],
     ],

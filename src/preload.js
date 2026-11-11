@@ -10,6 +10,11 @@ contextBridge.exposeInMainWorld('ds', {
   openTrash: () => ipcRenderer.invoke('open-trash'),
   steamUninstall: (id) => ipcRenderer.invoke('steam-uninstall', id),
   epicOpen: () => ipcRenderer.invoke('epic-open'),
+  settings: () => ipcRenderer.invoke('settings'),
+  setSettings: (p) => ipcRenderer.invoke('set-settings', p),
+  checkUpdates: () => ipcRenderer.invoke('check-updates'),
+  openUpdate: (u) => ipcRenderer.invoke('open-update', u),
+  onUpdate: (fn) => ipcRenderer.on('update', (_, s) => fn(s)),
   onScan: (fn) => ipcRenderer.on('scan-progress', (_, p) => fn(p)),
   onClean: (fn) => ipcRenderer.on('clean-progress', (_, p) => fn(p)),
 });

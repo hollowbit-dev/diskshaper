@@ -5,12 +5,15 @@ const os = require('os');
 const { execFile } = require('child_process');
 const real = require('./scanner');
 const demo = require('./demo');
+const { setupUpdates } = require('./update-check');
 // Demo mode shows made-up results for screenshots. It never touches real files.
 const DEMO = process.env.DISKSHAPER_DEMO === '1';
 const scan = DEMO ? demo.scan : real.scan;
 const diskInfo = DEMO ? async () => ({ total: 494.38e9, free: 21.4e9 }) : real.diskInfo;
 
 const IS_MAC = process.platform === 'darwin';
+// Tests can point the app at a throwaway settings folder.
+if (process.env.DISKSHAPER_USERDATA) app.setPath('userData', process.env.DISKSHAPER_USERDATA);
 let win;
 // Only paths the last scan returned can be cleaned. The window can't ask to trash anything else.
 let allowed = new Set();
@@ -38,6 +41,18 @@ function create() {
 }
 
 ipcMain.handle('disk', () => diskInfo());
+
+// The only network request: once a day, if not turned off, ask GitHub for the latest version number.
+const settings = () => require('./settings');
+const updates = setupUpdates({
+  app, repo: 'hollowbit-dev/diskshaper',
+  getSettings: () => settings().get(), setSettings: (p) => settings().set(p),
+  send: (st) => { if (win && !win.isDestroyed()) win.webContents.send('update', st); },
+});
+ipcMain.handle('settings', () => ({ ...settings().get(), version: app.getVersion() }));
+ipcMain.handle('set-settings', (e, patch) => settings().set({ autoUpdate: patch.autoUpdate !== false, ...(patch.skipVersion ? { skipVersion: String(patch.skipVersion) } : {}) }));
+ipcMain.handle('check-updates', () => updates.check({ manual: true }));
+ipcMain.handle('open-update', (e, url) => /^https:\/\/github\.com\/hollowbit-dev\/diskshaper\//.test(url) && shell.openExternal(url));
 
 ipcMain.handle('scan', async (e) => {
   let last = 0;
@@ -135,5 +150,5 @@ ipcMain.handle('open-trash', () => {
 ipcMain.handle('steam-uninstall', (e, appid) => /^\d+$/.test(appid) && shell.openExternal(`steam://uninstall/${appid}`));
 ipcMain.handle('epic-open', () => shell.openExternal('com.epicgames.launcher://store/library'));
 
-app.whenReady().then(create);
+app.whenReady().then(() => { create(); if (!DEMO) updates.schedule(); });
 app.on('window-all-closed', () => app.quit());

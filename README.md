@@ -16,7 +16,7 @@ Every group says what it is and is labelled **Safe** (rebuilt or downloadable ag
 
 ## Privacy
 
-The app makes no network requests. It only looks in your user folders, app caches and game libraries, never in macOS or Windows system folders.
+The only network request is a once-a-day check of GitHub for a newer version number, which you can turn off on the start screen; nothing about you or your files is sent. The app only looks in your user folders, app caches and game libraries, never in macOS or Windows system folders.
 
 ## Build from source
 

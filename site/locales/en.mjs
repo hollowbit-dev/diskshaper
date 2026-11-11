@@ -62,7 +62,7 @@ export default {
   faq: [
     ['Is Diskshaper really free?', 'Yes. There is no paid version, no trial and no ads. It is open source and made by Hollowbit Studio, who also make Fileshaper and Captionshaper.'],
     ['Will it delete something I need?', 'Not on its own. Only items you tick are touched, and they go to the Trash or Recycle Bin, not straight to deletion. Items marked “Check first” are never ticked for you.'],
-    ['Does it upload my files or track me?', 'No. The scan runs on your computer and the app makes no network requests at all. There are no analytics.'],
+    ['Does it upload my files or track me?', 'No. The scan runs on your computer and nothing about you or your files is sent anywhere. The only time the app goes online is a once-a-day check for a new version, which you can turn off. There are no analytics.'],
     ['Why is the space not free yet after cleaning?', 'Because everything goes to the Trash first, so you can undo it. Empty the Trash or Recycle Bin when you are happy and the space comes back.'],
     ['Which computers does it run on?', 'macOS 11 Big Sur or newer (Apple Silicon and Intel), and Windows 10 and 11 (64-bit).'],
   ],
@@ -81,9 +81,10 @@ export default {
     winReq: 'Windows 10 or 11, 64-bit.',
     macSteps: ['Open the downloaded .dmg and drag Diskshaper to Applications.', 'The first time, right-click Diskshaper and choose Open, then Open again.', 'Press Scan. If macOS asks to access Desktop, Documents or Downloads, allow it so Diskshaper can find big files there.'],
     winSteps: ['Run the installer.', 'If SmartScreen appears, click “More info”, then “Run anyway”.', 'Open Diskshaper from the Start menu and press Scan.'],
-    why: 'The warnings appear because Diskshaper is not signed with a paid certificate. It is free, open source and makes no network requests.',
+    why: 'The warnings appear because Diskshaper is not signed with a paid certificate. It is free and open source, so anyone can read every line of its code.',
   },
   changelog: [
+    { v: '1.0.2', date: '11 November 2026', name: 'Update check', items: ['Diskshaper now checks once a day whether there is a new version and shows a small notice with a download link. Only the version number is asked for; turn it off on the start screen.'] },
     { v: '1.0.1', date: '11 November 2026', name: 'Small update', items: ['“by Hollowbit Studio” in the app now opens hollowbit.dev, home of Hollowbit’s free apps.'] },
     { v: '1.0.0', date: '11 November 2026', name: 'First release', items: [
       'Scans your drive in a few seconds and sorts what it finds into Everyone, Gaming and Video editing.',
@@ -104,17 +105,17 @@ export default {
     ],
     rules: [
       ['No ads, no accounts', 'Open it and use it.'],
-      ['No tracking', 'The app makes no network requests at all.'],
+      ['No tracking', 'Nothing about you or your files is ever sent. The only request is a daily update check you can turn off.'],
       ['Undoable', 'Everything goes to the Trash or Recycle Bin.'],
       ['Open source', 'Read the code on GitHub.'],
     ],
   },
   privacy: {
-    short: 'Diskshaper scans files on your computer and never sends anything anywhere. The app makes no network requests. This website has no analytics and no cookies.',
+    short: 'Diskshaper scans files on your computer and never sends them anywhere. Its only network request is a once-a-day check for a new version, which you can turn off. This website has no analytics and no cookies.',
     sections: [
       ['What the app reads', 'File names, sizes and dates in your user folders, app caches and game libraries, and the game lists Steam, Epic, Heroic and CrossOver keep. To find duplicates it reads files to compare their contents. All of this stays in memory on your computer and is gone when you close the app.'],
       ['What the app changes', 'Nothing, until you press the clean button. Then it moves the items you ticked to the Trash or Recycle Bin using your system’s own move-to-Trash function.'],
-      ['Network', 'The app makes no network requests. There are no updates checks, analytics or crash reports. Buttons like “Uninstall in Steam” open your launcher on your computer.'],
+      ['Network', 'Once a day, Diskshaper asks GitHub for the number of the latest version. That is its only network request: nothing about you, your computer or your files is sent, and you can turn it off on the start screen. There are no analytics or crash reports. Buttons like “Uninstall in Steam” open your launcher on your computer.'],
       ['This website', 'Hosted on GitHub Pages, which keeps standard server logs. We add no analytics, cookies or trackers. The duplicate photo finder runs in your browser and never uploads your photos.'],
       ['Contact', 'Questions about privacy: open an issue on GitHub.'],
     ],

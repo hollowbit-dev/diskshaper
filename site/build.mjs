@@ -435,7 +435,7 @@ fs.writeFileSync(path.join(out, 'llms.txt'), `# Diskshaper
 - Price: free, open source, no account, no ads, no paid tier.
 - Platforms: macOS 11 or newer (Apple Silicon and Intel); Windows 10 and 11 (64-bit).
 - Website languages: English, Spanish, French, German, Russian, Chinese.
-- Privacy: the app makes no network requests. Scanning reads file names, sizes and dates locally.
+- Privacy: nothing about the user or their files is sent anywhere. The only network request is a once-a-day check of GitHub for a newer version number, which can be turned off. Scanning reads file names, sizes and dates locally.
 - Safety: never deletes outright (always Trash or Recycle Bin); never looks in macOS or Windows system folders; only Safe items are pre-selected.
 - Gaming: shader caches (Steam, NVIDIA, AMD, Intel, DirectX), Steam and Epic leftovers after uninstall, unfinished downloads, launcher caches, games not played in 3 months (Steam, Epic, Heroic) with uninstall links, empty and full CrossOver bottles on Mac.
 - Video editing: Premiere Pro media cache and peak files, After Effects disk cache, DaVinci Resolve CacheClip and proxies, Final Cut and CapCut caches, render previews and auto-saves next to projects, duplicate footage, old exports.

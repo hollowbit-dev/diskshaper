@@ -450,3 +450,20 @@ addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { if (!$('#doneBg').hidden) $('#doneBg').hidden = true; else if (state.detail) closeDetail(); }
 });
 addEventListener('resize', () => state.screen === 'results' && moveSegPill());
+
+// ---------- updates ----------
+(async () => {
+  const st = await ds.settings();
+  const box = $('#autoUpd');
+  box.checked = st.autoUpdate !== false;
+  box.onchange = async () => { await ds.setSettings({ autoUpdate: box.checked }); if (box.checked) ds.checkUpdates(); };
+  ds.onUpdate((u) => {
+    $('#updNote')?.remove();
+    const n = el('div', 'update-note'); n.id = 'updNote'; n.setAttribute('role', 'status');
+    const t = el('div'); t.append(el('b', '', `Diskshaper ${u.version} is out`), el('span', '', `You have ${st.version}.`));
+    const go = el('button', 'primary sm', 'Download'); go.id = 'upd-go'; go.onclick = () => { ds.openUpdate(u.url); n.remove(); };
+    const later = el('button', 'ghost sm', 'Later'); later.id = 'upd-later'; later.onclick = () => { ds.setSettings({ autoUpdate: box.checked, skipVersion: u.version }); n.remove(); };
+    const row = el('div', 'row'); row.append(go, later);
+    n.append(t, row); document.body.append(n);
+  });
+})();

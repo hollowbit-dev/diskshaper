@@ -62,7 +62,7 @@ export default {
   faq: [
     ['Ist Diskshaper wirklich kostenlos?', 'Ja. Es gibt keine Bezahlversion, keine Testphase und keine Werbung. Es ist Open Source und stammt von Hollowbit Studio, die auch Fileshaper und Captionshaper machen.'],
     ['Kann es etwas löschen, das ich brauche?', 'Nicht von selbst. Nur angehakte Einträge werden angefasst, und sie landen im Papierkorb statt direkt gelöscht zu werden. „Erst prüfen“ wird nie für dich angehakt.'],
-    ['Lädt es meine Dateien hoch oder trackt es mich?', 'Nein. Der Scan läuft auf deinem Computer, und die App stellt keinerlei Internetverbindung her. Keine Analysen.'],
+    ['Lädt es meine Dateien hoch oder trackt es mich?', 'Nein. Der Scan läuft auf deinem Computer, und nichts über dich oder deine Dateien wird verschickt. Online geht die App nur einmal am Tag, um nach einer neuen Version zu sehen, und das kannst du ausschalten. Keine Analysen.'],
     ['Warum ist der Platz nach dem Aufräumen noch nicht frei?', 'Weil alles zuerst in den Papierkorb geht, damit du es rückgängig machen kannst. Leere den Papierkorb, wenn du zufrieden bist, dann ist der Platz wieder da.'],
     ['Auf welchen Computern läuft es?', 'macOS 11 Big Sur oder neuer (Apple Silicon und Intel) sowie Windows 10 und 11 (64 Bit).'],
   ],
@@ -81,9 +81,10 @@ export default {
     winReq: 'Windows 10 oder 11, 64 Bit.',
     macSteps: ['Öffne die geladene .dmg und zieh Diskshaper in Programme.', 'Beim ersten Mal: Rechtsklick auf Diskshaper, Öffnen wählen, dann nochmal Öffnen.', 'Drück auf Scannen. Fragt macOS nach Zugriff auf Schreibtisch, Dokumente oder Downloads, erlaube es, damit Diskshaper dort große Dateien findet.'],
     winSteps: ['Starte das Installationsprogramm.', 'Erscheint SmartScreen, klicke auf „Weitere Informationen“ und dann auf „Trotzdem ausführen“.', 'Öffne Diskshaper über das Startmenü und drück auf Scannen.'],
-    why: 'Die Warnungen erscheinen, weil Diskshaper nicht mit einem kostenpflichtigen Zertifikat signiert ist. Es ist kostenlos, Open Source und stellt keine Internetverbindung her.',
+    why: 'Die Warnungen erscheinen, weil Diskshaper nicht mit einem kostenpflichtigen Zertifikat signiert ist. Es ist kostenlos und Open Source, jeder kann den Code lesen.',
   },
   changelog: [
+    { v: '1.0.2', date: '11. November 2026', name: 'Update-Hinweis', items: ['Diskshaper prüft jetzt einmal am Tag, ob es eine neue Version gibt, und zeigt einen kleinen Hinweis mit Download-Link. Abgefragt wird nur die Versionsnummer; abschaltbar auf dem Startbildschirm.'] },
     { v: '1.0.1', date: '11. November 2026', name: 'Kleines Update', items: ['„by Hollowbit Studio“ in der App öffnet jetzt hollowbit.dev, das Zuhause der kostenlosen Hollowbit-Apps.'] },
     { v: '1.0.0', date: '11. November 2026', name: 'Erste Version', items: [
       'Scannt deine Festplatte in wenigen Sekunden und sortiert alles in Für alle, Gaming und Videoschnitt.',
@@ -104,17 +105,17 @@ export default {
     ],
     rules: [
       ['Keine Werbung, kein Konto', 'Öffnen und loslegen.'],
-      ['Kein Tracking', 'Die App stellt keinerlei Internetverbindung her.'],
+      ['Kein Tracking', 'Nichts über dich oder deine Dateien wird je verschickt. Die einzige Verbindung ist eine tägliche Update-Prüfung, die du ausschalten kannst.'],
       ['Umkehrbar', 'Alles geht in den Papierkorb.'],
       ['Open Source', 'Lies den Code auf GitHub.'],
     ],
   },
   privacy: {
-    short: 'Diskshaper scannt Dateien auf deinem Computer und schickt nie etwas irgendwohin. Die App stellt keine Internetverbindung her. Diese Website hat keine Analysen und keine Cookies.',
+    short: 'Diskshaper scannt Dateien auf deinem Computer und schickt sie nie irgendwohin. Die einzige Internetverbindung ist eine tägliche Prüfung auf eine neue Version, die du ausschalten kannst. Diese Website hat keine Analysen und keine Cookies.',
     sections: [
       ['Was die App liest', 'Dateinamen, Größen und Daten in deinen Benutzerordnern, App-Caches und Spielbibliotheken sowie die Spiellisten von Steam, Epic, Heroic und CrossOver. Um Duplikate zu finden, liest sie Dateien und vergleicht ihren Inhalt. Alles bleibt im Speicher deines Computers und ist weg, sobald du die App schließt.'],
       ['Was die App ändert', 'Nichts, bis du auf Aufräumen drückst. Dann verschiebt sie die angehakten Einträge mit der Funktion deines Systems in den Papierkorb.'],
-      ['Netzwerk', 'Die App stellt keine Internetverbindung her. Keine Update-Prüfung, keine Analysen, keine Absturzberichte. Buttons wie „In Steam deinstallieren“ öffnen deinen Launcher auf deinem Computer.'],
+      ['Netzwerk', 'Einmal am Tag fragt Diskshaper GitHub nach der Nummer der neuesten Version. Das ist die einzige Verbindung: Nichts über dich, deinen Computer oder deine Dateien wird verschickt, und du kannst sie auf dem Startbildschirm ausschalten. Keine Analysen, keine Absturzberichte. Buttons wie „In Steam deinstallieren“ öffnen deinen Launcher auf deinem Computer.'],
       ['Diese Website', 'Gehostet auf GitHub Pages, das übliche Server-Logs führt. Wir fügen keine Analysen, Cookies oder Tracker hinzu. Der Doppelte-Fotos-Finder läuft in deinem Browser und lädt deine Fotos nie hoch.'],
       ['Kontakt', 'Fragen zum Datenschutz: Eröffne ein Issue auf GitHub.'],
     ],
