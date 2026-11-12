@@ -1,39 +1,24 @@
 /* ---------- Hollowbit liquid glass (the Writeshaper look) ----------
-   Loaded last. Light by default, dark when the visitor's system is dark: a slow colour wash behind
+   Loaded last. Dark, with Writeshaper's dark-theme values: a slow colour wash behind
    frosted panels, bright 1px top edges, soft layered shadows. Diskshaper keeps its blue and group colours.
-   App mock-ups (.demo, .tdemo, .shot) stay dark in both themes, like the real app. */
+   App mock-ups (.demo, .tdemo, .shot) keep the app's own colours. */
 @property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+/* Writeshaper's dark theme values, used as the default */
 :root {
-  --bg: #f4f3f8; --bg2: #ebe9f3;
-  --card: rgba(255,255,255,.56); --card2: rgba(255,255,255,.84); --chip: rgba(30,24,60,.055);
-  --line: rgba(30,24,60,.09); --line2: rgba(30,24,60,.15);
-  --tx: #17161d; --tx2: #55536a; --tx3: #8b899b;
-  --acc: #2f76f0; --acc-hi: #4a8bff; --acc-ink: #fff; --acc-glow: rgba(47,118,240,.32);
-  --safe: #1a9f56; --check: #c27c00;
-  --hi: inset 0 1px 0 rgba(255,255,255,.95), inset 0 0 0 1px rgba(255,255,255,.55);
-  --sh-1: 0 1px 2px rgba(25,18,60,.05), 0 3px 8px rgba(25,18,60,.05);
-  --sh-2: 0 1px 2px rgba(25,18,60,.05), 0 10px 30px rgba(25,18,60,.08), 0 30px 70px rgba(25,18,60,.08);
-  --sh-3: 0 2px 4px rgba(25,18,60,.06), 0 20px 50px rgba(25,18,60,.16), 0 60px 120px rgba(25,18,60,.14);
-  --nav-bg: rgba(255,255,255,.62); --pop: rgba(255,255,255,.9);
-  --wash: .26; --ease-io: cubic-bezier(.65,0,.35,1);
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0a10; --bg2: #0e0d14;
-    --card: rgba(255,255,255,.045); --card2: rgba(255,255,255,.075); --chip: rgba(255,255,255,.06);
-    --line: rgba(255,255,255,.08); --line2: rgba(255,255,255,.14);
-    --tx: #f4f3f8; --tx2: #adabbd; --tx3: #85839a;
-    --acc: #5b9dff; --acc-hi: #82b5ff; --acc-ink: #031330; --acc-glow: rgba(91,157,255,.8);
-    --safe: #4ade80; --check: #fbbf24;
-    --hi: inset 0 1px 0 rgba(255,255,255,.10), inset 0 0 0 1px rgba(255,255,255,.06);
-    --sh-1: 0 1px 2px rgba(0,0,0,.35), 0 4px 12px rgba(0,0,0,.25);
-    --sh-2: 0 2px 6px rgba(0,0,0,.3), 0 18px 48px rgba(0,0,0,.38);
-    --sh-3: 0 4px 12px rgba(0,0,0,.35), 0 30px 90px rgba(0,0,0,.55);
-    --nav-bg: rgba(22,21,30,.55); --pop: rgba(30,29,40,.88);
-    --wash: .17;
-    color-scheme: dark;
-  }
+  --bg: #111017; --bg2: #18171f;
+  --card: rgba(38,36,50,.55); --card2: rgba(42,40,54,.88); --chip: rgba(255,255,255,.07);
+  --line: rgba(255,255,255,.08); --line2: rgba(255,255,255,.14);
+  --tx: #f3f2f8; --tx2: #adabbd; --tx3: #7a7889;
+  --acc: #5b9dff; --acc-hi: #82b5ff; --acc-ink: #031330; --acc-glow: rgba(91,157,255,.45);
+  --grad: linear-gradient(120deg, #5b9dff, #7c83ff 52%, #a78bfa);
+  --safe: #3ddc84; --check: #fbbf24;
+  --hi: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(255,255,255,.06);
+  --sh-1: 0 1px 2px rgba(0,0,0,.3);
+  --sh-2: 0 2px 6px rgba(0,0,0,.3), 0 18px 44px rgba(0,0,0,.35);
+  --sh-3: 0 4px 10px rgba(0,0,0,.35), 0 30px 90px rgba(0,0,0,.55);
+  --nav-bg: color-mix(in srgb, rgba(42,40,54,.88) 75%, transparent); --pop: rgba(42,40,54,.94);
+  --wash: .17; --ease-io: cubic-bezier(.65,0,.35,1);
+  color-scheme: dark;
 }
 /* dark islands: the app mock-ups look like the real (dark) app in both themes */
 .demo, .tdemo, .shot, .demo-done, .demo-dock {
@@ -61,8 +46,8 @@ body { background: var(--bg); color: var(--tx); overflow-x: clip; }
   backdrop-filter: blur(26px) saturate(1.8); -webkit-backdrop-filter: blur(26px) saturate(1.8);
   box-shadow: var(--hi), var(--sh-2);
 }
-.card, .facts div { border-radius: 20px; }
-.panel, .studio-card { border-radius: 24px; }
+.card, .facts div { border-radius: 24px; }
+.panel, .studio-card { border-radius: 28px; }
 .chip { box-shadow: var(--hi), var(--sh-1); border-radius: 999px; padding: 8px 15px 8px 12px; }
 .chip b { color: var(--tx); }
 .callout { box-shadow: var(--hi), inset 3px 0 0 var(--acc), var(--sh-1); }
@@ -85,8 +70,8 @@ body { background: var(--bg); color: var(--tx); overflow-x: clip; }
 .nav-meter { left: 22px; right: 22px; bottom: 0; height: 2px; opacity: .85; }
 
 /* buttons: pills with a top highlight */
-.btn-primary { background: var(--acc); color: var(--acc-ink); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px -6px var(--acc-glow); }
-.btn-primary:hover { background: var(--acc-hi); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 14px 34px -6px var(--acc-glow); }
+.btn-primary { background: var(--grad); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 10px 26px var(--acc-glow); }
+.btn-primary:hover { background: var(--grad); filter: brightness(1.06) saturate(1.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 14px 34px var(--acc-glow); }
 .btn-ghost { border: 0; color: var(--tx); background: var(--card2); box-shadow: var(--hi), var(--sh-1), 0 0 0 .5px var(--line); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
 .btn-ghost:hover { background: var(--card2); border: 0; transform: translateY(-1px); }
 .btn { transition: background-color .25s, box-shadow .25s, transform .45s cubic-bezier(.34,1.42,.64,1), color .2s; }
@@ -104,7 +89,7 @@ body { background: var(--bg); color: var(--tx); overflow-x: clip; }
 .shot { border: 0; box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 40px 90px -40px color-mix(in srgb, var(--c, #000) 60%, transparent), var(--sh-3); }
 
 /* group bands: big glass cards lit from one corner by the group colour */
-.band { margin: 0 16px; }
+.band { margin: 0 16px; border-radius: 32px; }
 .band::before { background:
     radial-gradient(70% 90% at 0% 0%, color-mix(in srgb, var(--c) 20%, transparent), transparent 70%),
     var(--card);
@@ -175,3 +160,7 @@ body { background: var(--bg); color: var(--tx); overflow-x: clip; }
 .f-item { background: var(--card2); box-shadow: var(--sh-1); }
 .f-item .th { background-color: var(--chip); }
 .f-item .badge { background: rgba(9,9,11,.75); color: #fff; }
+
+/* icons sit in small glass tiles, like Writeshaper's feature cards */
+.card > .ic, .panel > .ic { box-sizing: content-box; width: 22px; height: 22px; padding: 11px; border-radius: 14px; background: var(--chip); box-shadow: var(--hi); color: var(--acc); }
+.safe-band .card .ic { color: var(--acc-hi); }
