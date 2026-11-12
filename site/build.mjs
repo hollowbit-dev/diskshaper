@@ -10,6 +10,8 @@ const here = path.dirname(new URL(import.meta.url).pathname);
 const root = path.resolve(here, '..');
 const out = path.join(root, 'docs');
 const V = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version;
+// Stylesheet/script version: app version plus a hash of the assets, so browsers refetch after every restyle.
+const AV = V + '-' + (await import('node:crypto')).createHash('md5').update(['base.css', 'finder.css', 'tail.css', 'glass.css', 'site.js'].map((f) => fs.readFileSync(path.join(root, 'site/assets', f), 'utf8')).join('')).digest('hex').slice(0, 6);
 const UPDATED = '2026-11-11';
 const SITE = {
   url: 'https://hollowbit.dev/diskshaper', base: '/diskshaper/',
@@ -168,9 +170,10 @@ ${alternates}
 ${ld}
 <link rel="icon" type="image/png" href="${shared('favicon.png')}">
 <link rel="preload" href="${shared('fonts/Geist-Variable.woff2')}" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="${shared('style.css')}?v=${V}">
+<link rel="stylesheet" href="${shared('style.css')}?v=${AV}">
 </head>
 <body data-page="${page}">
+<div class="wash" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <a class="skip" href="#main">${esc(u.nav.skip)}</a>
 <header class="nav"><div class="nav-in">
   <div class="brand-wrap"><a class="logo" href="${href('index')}"><img src="${shared('img/icon-64.png')}" alt="" width="26" height="26">Diskshaper</a><a class="by" href="${SITE.studio}" title="Hollowbit Studio">${HB}<span>${esc(u.studio.by)}</span></a></div>
@@ -201,7 +204,7 @@ ${body}
 <div class="wrap foot-legal"><span>© 2026 <a href="${SITE.studio}">Hollowbit Studio</a></span><span>${esc(u.footer.oss)}</span></div>
 <div class="foot-word" aria-hidden="true">Diskshaper</div></footer>
 <script>window.DS=${JSON.stringify({ lang: cur, langs: CODES, english: en })};</script>
-<script src="${shared('site.js')}?v=${V}" defer></script>
+<script src="${shared('site.js')}?v=${AV}" defer></script>
 ${o.tools ? `<script src="${shared('tools.js')}?v=${V}" defer></script>` : ''}
 </body>
 </html>
@@ -423,7 +426,7 @@ fs.writeFileSync(path.join(out, '404.html'), layout(EN, '404', `${EN.ui.nf.title
 
 const assets = path.join(here, 'assets');
 for (const f of ['site.js', 'tools.js', 'favicon.png']) fs.copyFileSync(path.join(assets, f), path.join(out, f));
-fs.writeFileSync(path.join(out, 'style.css'), ['base.css', 'finder.css', 'tail.css'].map((f) => fs.readFileSync(path.join(assets, f), 'utf8')).join('\n'));
+fs.writeFileSync(path.join(out, 'style.css'), ['base.css', 'finder.css', 'tail.css', 'glass.css'].map((f) => fs.readFileSync(path.join(assets, f), 'utf8')).join('\n'));
 fs.cpSync(path.join(assets, 'fonts'), path.join(out, 'fonts'), { recursive: true });
 fs.cpSync(path.join(assets, 'img'), path.join(out, 'img'), { recursive: true });
 fs.writeFileSync(path.join(out, '.nojekyll'), '');
