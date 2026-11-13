@@ -16,7 +16,7 @@ const UPDATED = '2026-11-11';
 const SITE = {
   url: 'https://hollowbit.dev/diskshaper', base: '/diskshaper/',
   github: 'https://github.com/hollowbit-dev/diskshaper', tip: 'https://ko-fi.com/hollowbit',
-  studio: 'https://hollowbit.dev/', fileshaper: 'https://fileshaper.app', captionshaper: 'https://captionshaper.app', writeshaper: 'https://hollowbit.dev/writeshaper/', fuseduo: 'https://fuseduo.com/',
+  studio: 'https://hollowbit.dev/', fileshaper: 'https://fileshaper.app', captionshaper: 'https://captionshaper.app', writeshaper: 'https://hollowbit.dev/writeshaper/', startshaper: 'https://hollowbit.dev/startshaper/', fuseduo: 'https://fuseduo.com/',
 };
 const FILES = { mac: `Diskshaper-${V}-mac-arm64.dmg`, macIntel: `Diskshaper-${V}-mac-x64.dmg`, win: `Diskshaper-Setup-${V}-win-x64.exe` };
 const DL = `${SITE.github}/releases/latest/download/`;
@@ -29,7 +29,7 @@ const fill = (s, o) => String(s).replace(/\{(\w+)\}/g, (_, k) => o[k] ?? '');
 // Checksums: from the local installers if they're built, otherwise from the GitHub release (same files).
 const RELEASE_SUMS = {};
 try {
-  const r = await fetch(`https://api.github.com/repos/hollowbit-dev/diskshaper/releases/tags/v${V}`, { headers: { 'User-Agent': 'hollowbit-site-build' } });
+  const r = await fetch(`https://api.github.com/repos/hollowbit-dev/diskshaper/releases/tags/v${V}`, { headers: { 'User-Agent': 'hollowbit-site-build', ...(process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}) } });
   if (r.ok) for (const a of (await r.json()).assets || []) if (a.digest) RELEASE_SUMS[a.name] = a.digest.replace(/^sha256:/, '');
 } catch { /* offline */ }
 function sha(file) {
@@ -199,7 +199,7 @@ ${body}
   <div class="foot-brand"><a class="logo" href="${href('index')}"><img src="${shared('img/icon-64.png')}" alt="" width="22" height="22">Diskshaper</a><p>${esc(u.footer.tagline)}</p></div>
   <div class="foot-col"><p class="foot-h">${esc(u.footer.product)}</p><a href="${href('features')}">${esc(u.nav.features)}</a><a href="${href('download')}">${esc(u.nav.download)}</a><a href="${href('changelog')}">${esc(u.footer.changelog)}</a><a href="${shared('tools/')}">${esc(u.nav.finder)}</a><a href="${shared('guides/')}">${esc(u.nav.guides)}</a></div>
   <div class="foot-col"><p class="foot-h">${esc(u.footer.help)}</p><a href="${href('faq')}">${esc(u.nav.faq)}</a><a href="${href('support')}">${esc(u.footer.support)}</a><a href="${href('privacy')}">${esc(u.footer.privacy)}</a></div>
-  <div class="foot-col"><p class="foot-h">Hollowbit Studio</p><a href="${SITE.studio}">hollowbit.dev</a><a href="${href('about')}">${esc(u.nav.about)}</a><a href="${SITE.fileshaper}">Fileshaper</a><a href="${SITE.captionshaper}">Captionshaper</a><a href="${SITE.writeshaper}">Writeshaper</a><a href="${SITE.fuseduo}">Fuseduo</a><a href="${SITE.github}" rel="noopener">GitHub</a></div>
+  <div class="foot-col"><p class="foot-h">Hollowbit Studio</p><a href="${SITE.studio}">hollowbit.dev</a><a href="${href('about')}">${esc(u.nav.about)}</a><a href="${SITE.fileshaper}">Fileshaper</a><a href="${SITE.captionshaper}">Captionshaper</a><a href="${SITE.writeshaper}">Writeshaper</a><a href="${SITE.startshaper}">Startshaper</a><a href="${SITE.fuseduo}">Fuseduo</a><a href="${SITE.github}" rel="noopener">GitHub</a></div>
 </div>
 <div class="wrap foot-legal"><span>© 2026 <a href="${SITE.studio}">Hollowbit Studio</a></span><span>${esc(u.footer.oss)}</span></div>
 <div class="foot-word" aria-hidden="true">Diskshaper</div></footer>
@@ -318,6 +318,7 @@ ${endCta(t)}`;
   <a class="panel link-panel sib sib-fs" href="${SITE.fileshaper}"><h3>Fileshaper</h3><p>${esc(u.fs)}</p></a>
   <a class="panel link-panel sib sib-cs" href="${SITE.captionshaper}"><h3>Captionshaper</h3><p>${esc(u.cs)}</p></a>
   <a class="panel link-panel sib sib-ws" href="${SITE.writeshaper}"><h3>Writeshaper</h3><p>${esc(u.ws)}</p></a>
+  <a class="panel link-panel sib sib-ss" href="${SITE.startshaper}"><h3>Startshaper</h3><p>${esc(u.ss)}</p></a>
 </div></section>`;
   },
 
@@ -439,7 +440,7 @@ fs.writeFileSync(path.join(out, 'sitemap.xml'), `<?xml version="1.0" encoding="U
 fs.writeFileSync(path.join(out, 'robots.txt'), `# Search engines and AI assistants are welcome.\nUser-agent: *\nAllow: /\n\nSitemap: ${SITE.url}/sitemap.xml\n`);
 fs.writeFileSync(path.join(out, 'llms.txt'), `# Diskshaper
 
-> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper, Captionshaper, Writeshaper and Fuseduo). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
+> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper, Captionshaper, Writeshaper, Startshaper and Fuseduo). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
 
 ## Key facts
 - Maker: Hollowbit Studio (Elvis Zygmanta), https://hollowbit.dev
