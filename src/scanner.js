@@ -265,6 +265,89 @@ async function launcherCaches() {
   return sizedItems(p);
 }
 
+// ---------- more launchers, driver installers, crash reports ----------
+// Only folders whose own name says cache or logs, inside folders a known launcher or app owns.
+// Their support pages tell people to delete these when something goes wrong; the apps rebuild them.
+const CACHE_NAME = /^(cache|caches|code cache|gpucache|dawncache|dawngraphitecache|dawnwebgpucache|grshadercache|shadercache|browsercache|webcache(_\d+)?|htmlcache|httpcache|logs?|crashdumps|crashes)$/i;
+async function cacheDirsUnder(root, depth = 3) {
+  const out = [];
+  const walk = async (dir, d) => {
+    for (const e of await readdir(dir)) {
+      if (!e.isDirectory() || e.isSymbolicLink()) continue;
+      const fp = path.join(dir, e.name);
+      if (CACHE_NAME.test(e.name)) out.push(fp);
+      else if (d > 1) await walk(fp, d - 1);
+    }
+  };
+  if (await exists(root)) await walk(root, depth);
+  return out;
+}
+// [app name, folder] pairs; each cache found under the folder becomes one item labelled with the app.
+async function labelledCaches(roots, minBytes = 1e6) {
+  const out = [], seen = new Set();
+  for (const [label, root] of roots) {
+    for (const p of await cacheDirsUnder(root)) {
+      if (seen.has(p) || [...seen].some((q) => p.startsWith(q + path.sep))) continue;
+      seen.add(p);
+      const s = await sizeOf(p);
+      if (s.bytes >= minBytes) out.push(item(p, s, { name: `${label} ${path.basename(p).toLowerCase()}`, app: label }));
+    }
+  }
+  return out;
+}
+const PDATA = env('ProgramData', 'C:\\ProgramData');
+const SYSROOT = path.parse(HOME).root;
+async function moreLauncherCaches() {
+  const AS = path.join(HOME, 'Library/Application Support');
+  return labelledCaches(IS_MAC ? [
+    ['Battle.net', path.join(AS, 'Battle.net')], ['Battle.net', path.join(AS, 'Blizzard')],
+    ['Riot Client', path.join(AS, 'Riot Games')], ['GOG Galaxy', path.join(AS, 'GOG.com/Galaxy')],
+    ['EA app', path.join(AS, 'Electronic Arts')], ['Ubisoft Connect', path.join(AS, 'Ubisoft')],
+  ] : IS_WIN ? [
+    ['Battle.net', path.join(LOCAL, 'Battle.net')], ['Battle.net', path.join(ROAMING, 'Battle.net')],
+    ['Battle.net', path.join(LOCAL, 'Blizzard Entertainment')], ['Battle.net', path.join(PDATA, 'Blizzard Entertainment')],
+    ['Riot Client', path.join(LOCAL, 'Riot Games')], ['Riot Games', path.join(SYSROOT, 'Riot Games')],
+    ['EA app', path.join(LOCAL, 'Electronic Arts')], ['EA app', path.join(ROAMING, 'Electronic Arts')], ['EA app', path.join(LOCAL, 'EADesktop')], ['EA app', path.join(PDATA, 'EA Desktop')],
+    ['Ubisoft Connect', path.join(LOCAL, 'Ubisoft Game Launcher')], ['Ubisoft Connect', path.join(PF86, 'Ubisoft', 'Ubisoft Game Launcher')],
+    ['GOG Galaxy', path.join(PDATA, 'GOG.com', 'Galaxy')], ['GOG Galaxy', path.join(LOCAL, 'GOG.com', 'Galaxy')],
+    ['Rockstar Launcher', path.join(LOCAL, 'Rockstar Games')],
+  ] : []);
+}
+// Windows has no per-app cache folder like ~/Library/Caches, so look inside the big caching apps by name.
+async function windowsAppCaches() {
+  if (!IS_WIN) return [];
+  return labelledCaches([
+    ['Chrome', path.join(LOCAL, 'Google', 'Chrome', 'User Data')], ['Edge', path.join(LOCAL, 'Microsoft', 'Edge', 'User Data')],
+    ['Brave', path.join(LOCAL, 'BraveSoftware', 'Brave-Browser', 'User Data')], ['Opera GX', path.join(LOCAL, 'Opera Software')],
+    ['Discord', path.join(ROAMING, 'discord')], ['Spotify', path.join(LOCAL, 'Spotify')], ['Slack', path.join(ROAMING, 'Slack')],
+    ['Teams', path.join(ROAMING, 'Microsoft', 'Teams')], ['VS Code', path.join(ROAMING, 'Code')], ['Steam web', path.join(LOCAL, 'Steam')],
+  ], 5e6);
+}
+// Graphics driver installers unpack a full copy of themselves before installing, then leave it behind.
+async function driverInstallers() {
+  if (!IS_WIN) return [];
+  return sizedItems([
+    path.join(SYSROOT, 'NVIDIA'), path.join(SYSROOT, 'AMD'),
+    path.join(PDATA, 'NVIDIA Corporation', 'Downloader'), path.join(PDATA, 'NVIDIA Corporation', 'NV_Cache'),
+  ]).then((l) => l.filter((i) => i.bytes > 20e6).map((i) => ({ ...i, name: /Downloader|NV_Cache/.test(i.path) ? 'Old NVIDIA driver downloads' : `${/AMD/i.test(i.name) ? 'AMD' : 'NVIDIA'} driver installer files` })));
+}
+// Crash dumps and error reports from apps and games. Only useful if you're sending one to a developer.
+async function crashReports() {
+  if (IS_MAC) return sizedItems([path.join(HOME, 'Library/Logs/DiagnosticReports')]).then((l) => l.filter((i) => i.bytes > 5e6));
+  if (!IS_WIN) return [];
+  const list = await sizedItems([
+    path.join(LOCAL, 'CrashDumps'),
+    path.join(LOCAL, 'Microsoft', 'Windows', 'WER', 'ReportArchive'), path.join(LOCAL, 'Microsoft', 'Windows', 'WER', 'ReportQueue'),
+  ]);
+  // Unreal Engine games keep crash reports in %LOCALAPPDATA%\<Game>\Saved\Crashes.
+  for (const e of await readdir(LOCAL)) {
+    if (!e.isDirectory()) continue;
+    const p = path.join(LOCAL, e.name, 'Saved', 'Crashes');
+    if (await exists(p)) { const s = await sizeOf(p); if (s.bytes > 1e6) list.push(item(p, s, { name: `${e.name} crash reports` })); }
+  }
+  return list.filter((i) => i.bytes > 1e6);
+}
+
 // ---------- creators ----------
 async function creatorCaches() {
   const adobeCache = IS_MAC ? [
@@ -311,7 +394,7 @@ async function appCaches() {
     return (await childItems(path.join(HOME, 'Library/Caches'), (n) => !skip.test(n)))
       .filter((i) => i.bytes > 5e6);
   }
-  if (IS_WIN) return sizedItems([path.join(LOCAL, 'Temp')]);
+  if (IS_WIN) return [...await sizedItems([path.join(LOCAL, 'Temp')]), ...await windowsAppCaches()];
   return sizedItems([path.join(HOME, '.cache')]);
 }
 
@@ -445,8 +528,11 @@ async function scan(onProgress = () => {}) {
     items: steam.downloads });
   step('Checking game launchers');
   add({ id: 'launcher', group: 'gamers', safety: 'safe', title: 'Launcher caches and logs',
-    why: 'Store pages, images and log files saved by Steam and the Epic Games Launcher. They come back on their own.',
-    items: await launcherCaches() });
+    why: 'Store pages, images and log files saved by Steam, Epic, Battle.net, Riot, the EA app, Ubisoft Connect and GOG Galaxy. They come back on their own. Close the launcher first.',
+    items: [...await launcherCaches(), ...await moreLauncherCaches()] });
+  add({ id: 'drivers', group: 'gamers', safety: 'safe', title: 'Graphics driver installers',
+    why: 'NVIDIA and AMD unpack a full copy of each driver installer and leave it behind after the driver is installed. Your driver keeps working; the installer downloads again if you ever need it. Windows may ask for permission.',
+    items: await driverInstallers() });
   step('Checking Epic Games and Heroic');
   const epic = await scanEpic();
   const heroic = await scanHeroic();
@@ -524,6 +610,9 @@ async function scan(onProgress = () => {}) {
   add({ id: 'dev-cache', group: 'everyone', safety: 'check', title: 'Developer tool downloads',
     why: 'Browsers, SDKs and packages that coding tools downloaded. Safe to remove, but each tool downloads them again the next time it runs.',
     items: caches.filter(isDev) });
+  add({ id: 'crash', group: 'everyone', safety: 'safe', title: 'Crash reports',
+    why: 'Memory dumps and error reports saved when an app or game crashed. They only matter if a developer asks you for one.',
+    items: await crashReports() });
   add({ id: 'trash', group: 'everyone', safety: 'info', title: 'Already in the Trash',
     why: 'Files in the Trash still use space until you empty it.',
     items: await trashSize(), action: 'empty-trash' });

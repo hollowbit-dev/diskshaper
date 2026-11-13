@@ -4,7 +4,8 @@ import fs from 'fs'; import os from 'os'; import path from 'path';
 const probe = path.join(os.homedir(), 'Downloads', 'diskshaper-probe-setup.dmg');
 fs.writeFileSync(probe, Buffer.alloc(3e6, 1));
 const old = new Date(Date.now() - 30 * 864e5); fs.utimesSync(probe, old, old);
-const app = await electron.launch({ args: ['.'] });
+const userData = fs.mkdtempSync(path.join(os.tmpdir(), 'ds-test-')); // keeps test cleans out of the real freed total
+const app = await electron.launch({ args: ['.'], env: { ...process.env, DISKSHAPER_USERDATA: userData } });
 let w; for (let i = 0; i < 100 && !w; i++) { w = app.windows()[0]; if (!w) await new Promise(r => setTimeout(r, 200)); }
 if (!w) w = await app.firstWindow();
 const errs = []; w.on('pageerror', (e) => errs.push(e.message)); w.on('console', (m) => m.type() === 'error' && errs.push(m.text()));

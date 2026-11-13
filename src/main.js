@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, nativeTheme, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, nativeTheme, nativeImage, clipboard, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const os = require('os');
@@ -6,6 +6,7 @@ const { execFile } = require('child_process');
 const real = require('./scanner');
 const demo = require('./demo');
 const { setupUpdates } = require('./update-check');
+const mapper = require('./mapper');
 // Demo mode shows made-up results for screenshots. It never touches real files.
 const DEMO = process.env.DISKSHAPER_DEMO === '1';
 const scan = DEMO ? demo.scan : real.scan;
@@ -19,6 +20,10 @@ let win;
 let allowed = new Set();
 // Pictures (thumbnails, icons, cover art) may only be read for paths the scan returned.
 let visible = new Set();
+// Sizes from the last scan, so the freed-space total is counted here, not reported by the window.
+let sizes = new Map();
+// Paths in the last space map (it is read-only: they can only be shown in Finder / File Explorer).
+let mapPaths = new Set();
 
 function create() {
   nativeTheme.themeSource = 'dark';
@@ -62,6 +67,7 @@ ipcMain.handle('scan', async (e) => {
     if (p.cat || t - last > 50) { last = t; e.sender.send('scan-progress', p); }
   });
   allowed = new Set(res.cats.filter((c) => !c.action).flatMap((c) => c.items.map((i) => i.path)));
+  sizes = new Map(res.cats.flatMap((c) => c.items.map((i) => [i.path, i.bytes])));
   visible = new Set(res.cats.flatMap((c) => c.items.flatMap((i) => [i.path, i.art, i.keep, i.thumb].filter(Boolean))));
   return res;
 });
@@ -70,7 +76,7 @@ ipcMain.handle('clean', async (e, paths) => {
   const done = [], failed = [];
   if (DEMO) {
     for (const p of paths) { done.push(p); e.sender.send('clean-progress', { done: done.length, total: paths.length, path: p }); await new Promise((r) => setTimeout(r, 25)); }
-    return { done, failed, disk: await diskInfo() };
+    return { done, failed, disk: await diskInfo(), freed: recordFreed(done) };
   }
   for (const p of paths) {
     if (!allowed.has(p)) { failed.push({ path: p, error: 'Not part of the last scan' }); continue; }
@@ -81,8 +87,43 @@ ipcMain.handle('clean', async (e, paths) => {
       e.sender.send('clean-progress', { done: done.length, total: paths.length, path: p });
     } catch (err) { failed.push({ path: p, error: String(err.message || err) }); }
   }
-  return { done, failed, disk: await diskInfo() };
+  return { done, failed, disk: await diskInfo(), freed: recordFreed(done) };
 });
+
+// Running total of what Diskshaper has cleared, kept only on this computer.
+function recordFreed(done) {
+  const bytes = done.reduce((s, p) => s + (sizes.get(p) || 0), 0);
+  const st = settings().get();
+  if (!bytes) return { total: st.freedTotal || 0, cleans: st.cleans || 0, now: 0 };
+  const next = settings().set({ freedTotal: (st.freedTotal || 0) + bytes, cleans: (st.cleans || 0) + 1, firstClean: st.firstClean || Date.now() });
+  return { total: next.freedTotal, cleans: next.cleans, now: bytes };
+}
+ipcMain.handle('freed', () => { const st = settings().get(); return { total: st.freedTotal || 0, cleans: st.cleans || 0 }; });
+// The share picture is drawn by the window; here it is copied to the clipboard, or saved where the person picks.
+ipcMain.handle('share-image', async (e, dataUrl, save) => {
+  if (!/^data:image\/png;base64,/.test(dataUrl)) return false;
+  const img = nativeImage.createFromDataURL(dataUrl);
+  if (!save) { clipboard.writeImage(img); return true; }
+  const r = await dialog.showSaveDialog(win, { defaultPath: path.join(app.getPath('desktop'), 'Diskshaper.png'), filters: [{ name: 'PNG image', extensions: ['png'] }] });
+  if (r.canceled || !r.filePath) return false;
+  fs.writeFileSync(r.filePath, img.toPNG());
+  return true;
+});
+
+// ---------- space map (read-only) ----------
+let mapCancel = null;
+ipcMain.handle('map', async (e, where) => {
+  if (mapCancel) mapCancel.cancelled = true;
+  const cancel = mapCancel = { cancelled: false };
+  if (DEMO) return demo.map((p) => e.sender.send('map-progress', p));
+  const root = where === 'drive' ? mapper.driveRoot() : os.homedir();
+  let last = 0;
+  const tree = await mapper.map(root, (p) => { const t = Date.now(); if (t - last > 100 || !p.path) { last = t; e.sender.send('map-progress', p); } }, cancel);
+  if (!tree) return null;
+  mapPaths = mapper.pathsOf(tree);
+  return { tree, root, home: os.homedir(), disk: await diskInfo() };
+});
+ipcMain.handle('map-cancel', () => { if (mapCancel) mapCancel.cancelled = true; return true; });
 
 // ---------- pictures ----------
 const picCache = new Map();
@@ -142,7 +183,7 @@ function queued(fn) {
 }
 
 ipcMain.handle('picture', (e, p, kind) => (visible.has(p) ? queued(() => picture(p, kind)) : null));
-ipcMain.handle('reveal', (e, p) => visible.has(p) && shell.showItemInFolder(p));
+ipcMain.handle('reveal', (e, p) => (visible.has(p) || mapPaths.has(p)) && shell.showItemInFolder(p));
 ipcMain.handle('open-trash', () => {
   if (IS_MAC) return shell.openPath(path.join(os.homedir(), '.Trash'));
   return shell.openExternal('shell:RecycleBinFolder');

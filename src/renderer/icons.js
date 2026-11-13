@@ -20,6 +20,9 @@ const ICON_PATHS = {
   'dev-cache': '<path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15"/>',
   'bottles-empty': '<path d="M9 3h6M10 3v4.5L6.5 11a3 3 0 0 0-.9 2.1V19a2 2 0 0 0 2 2h8.8a2 2 0 0 0 2-2v-5.9a3 3 0 0 0-.9-2.1L14 7.5V3"/>',
   bottles: '<path d="M9 3h6M10 3v4.5L6.5 11a3 3 0 0 0-.9 2.1V19a2 2 0 0 0 2 2h8.8a2 2 0 0 0 2-2v-5.9a3 3 0 0 0-.9-2.1L14 7.5V3"/><path d="M5.6 14.5h12.8"/>',
+  drivers: '<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M6 17v3M10 17v3M14 17v3M18 17v3M7 10.5h4v3H7z"/><circle cx="16" cy="12" r="1.6"/>',
+  crash: '<path d="M12 3.5 21 19H3z"/><path d="M12 9.5v4.5M12 16.6v.4"/>',
+  map: '<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M12 3.5v17M12 11h8.5M3.5 14H12M16 11v9.5"/>',
   trash: '<path d="M4 7h16M9.5 7V4.5h5V7M6 7l1 13h10l1-13"/>',
 };
 function icon(id, size = 20) {

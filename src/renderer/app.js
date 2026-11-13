@@ -14,7 +14,7 @@ const VISUAL = {
   installers: 'icon', archives: 'icon', huge: 'thumb',
 };
 
-const state = { screen: 'home', group: 'all', detail: null, result: null, disk: null };
+const state = { screen: 'home', group: 'all', detail: null, result: null, disk: null, freed: null };
 const selected = new Set();
 const gone = new Set();
 const live = [];
@@ -146,7 +146,10 @@ function show(screen, fn) {
     $('#home').hidden = screen !== 'home';
     $('#live').hidden = screen !== 'scanning';
     $('#seg').hidden = $('#rescan').hidden = screen !== 'results';
+    $('#mapTop').hidden = screen !== 'results';
     $('#dock').hidden = screen !== 'results';
+    $('#map').hidden = screen !== 'map';
+    if (screen === 'results') { $('#overview').hidden = !!state.detail; $('#detail').hidden = !state.detail; } else if (screen === 'map' || screen === 'home') { $('#overview').hidden = $('#detail').hidden = true; }
     fn?.();
     drawMeter();
   };
@@ -158,6 +161,8 @@ async function init() {
   state.disk = await ds.disk();
   drawMeter();
 }
+// test hooks (Playwright): open the map, read its state
+window.__ds = { openMap: (w) => openMap(w), map: () => mapState };
 init();
 
 // ---------- scan ----------
@@ -441,6 +446,13 @@ $('#cleanBtn').onclick = async () => {
   $('#doneTxt').textContent = res.failed.length
     ? `moved to the ${TRASH}. ${res.failed.length} item${res.failed.length === 1 ? '' : 's'} couldn't be moved because an app is using it. Close the app and try again.`
     : `moved to the ${TRASH}. Empty it to get the space back. Until then you can put anything back.`;
+  const tot = $('#doneTotal');
+  tot.hidden = !res.freed?.total || res.freed.cleans < 1;
+  if (!tot.hidden) {
+    tot.replaceChildren(document.createTextNode(`That's ${fmt(res.freed.total)} cleared by Diskshaper so far.`));
+    const sb = el('button', '', 'Share it'); sb.onclick = () => share(res.freed.total); tot.append(sb);
+    showFreed(res.freed);
+  }
   $('#doneBg').hidden = false;
 };
 $('#doneOk').onclick = () => ($('#doneBg').hidden = true);
@@ -467,3 +479,187 @@ addEventListener('resize', () => state.screen === 'results' && moveSegPill());
     n.append(t, row); document.body.append(n);
   });
 })();
+
+// ---------- toast ----------
+let toastTimer;
+function toast(text, action) {
+  const t = $('#toast'); t.replaceChildren(el('span', '', text));
+  if (action) { const b = el('button', 'ghost sm', action.label); b.onclick = () => { t.hidden = true; action.run(); }; t.append(b); }
+  t.hidden = false; t.style.animation = 'none'; void t.offsetWidth; t.style.animation = '';
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 5200);
+}
+
+// ---------- freed total + share picture ----------
+async function showFreed(f) {
+  f = f || await ds.freed();
+  const box = $('#freed');
+  box.hidden = !f.total;
+  if (!f.total) return;
+  countTo($('#freedNum'), $('#freedUnit'), f.total, 1200);
+  $('#freedSub').textContent = `across ${f.cleans} clean${f.cleans === 1 ? '' : 's'} on this ${isMac ? 'Mac' : 'PC'}`;
+  state.freed = f;
+}
+showFreed();
+// A 1200×630 picture people can paste into Discord, X or a forum post.
+function sharePicture(bytes) {
+  const W = 1200, H = 630, c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  g.fillStyle = '#09090b'; g.fillRect(0, 0, W, H);
+  const glow = g.createRadialGradient(W * .5, H * .38, 20, W * .5, H * .38, 560);
+  glow.addColorStop(0, 'rgba(91,157,255,.22)'); glow.addColorStop(1, 'rgba(91,157,255,0)'); g.fillStyle = glow; g.fillRect(0, 0, W, H);
+  const font = (w, px) => `${w} ${px}px -apple-system, "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif`;
+  // logo + name
+  const lg = g.createLinearGradient(64, 56, 100, 92); lg.addColorStop(0, '#8ab9ff'); lg.addColorStop(1, '#3a6fe0');
+  g.fillStyle = lg; g.beginPath(); g.roundRect(64, 56, 40, 40, 11); g.fill();
+  g.fillStyle = 'rgba(9,9,11,.85)'; g.beginPath(); g.roundRect(72, 80, 24, 8, 4); g.fill();
+  g.fillStyle = '#fff'; g.beginPath(); g.roundRect(72, 80, 13, 8, 4); g.fill();
+  g.fillStyle = '#f4f4f5'; g.font = font(650, 28); g.textBaseline = 'middle'; g.fillText('Diskshaper', 120, 77);
+  // the number
+  const [n, u] = split(bytes);
+  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+  g.font = font(750, 170); const nw = g.measureText(n).width; g.font = font(600, 64); const uw = g.measureText(u).width;
+  const x0 = W / 2 - (nw + 22 + uw) / 2;
+  g.textAlign = 'left'; g.fillStyle = '#ffffff'; g.font = font(750, 170); g.fillText(n, x0, 330);
+  g.fillStyle = '#a1a1aa'; g.font = font(600, 64); g.fillText(u, x0 + nw + 22, 330);
+  g.textAlign = 'center'; g.fillStyle = '#d4d4d8'; g.font = font(500, 38); g.fillText(`cleared from my ${isMac ? 'Mac' : 'PC'} with Diskshaper`, W / 2, 400);
+  // the tri-colour storage bar
+  const bx = 240, by = 452, bw = 720, bh = 16, parts = [['#5b9dff', .42], ['#a78bfa', .33], ['#f472b6', .25]];
+  g.fillStyle = 'rgba(255,255,255,.08)'; g.beginPath(); g.roundRect(bx, by, bw, bh, 8); g.fill();
+  g.save(); g.beginPath(); g.roundRect(bx, by, bw * .78, bh, 8); g.clip(); let x = bx;
+  for (const [col, k] of parts) { g.fillStyle = col; g.fillRect(x, by, bw * .78 * k + 1, bh); x += bw * .78 * k; }
+  g.restore();
+  g.fillStyle = '#71717a'; g.font = font(500, 26); g.fillText('Free for Mac and Windows  ·  hollowbit.dev/diskshaper', W / 2, 560);
+  return c.toDataURL('image/png');
+}
+async function share(bytes) {
+  const url = sharePicture(bytes);
+  await ds.shareImage(url, false);
+  toast('Picture copied. Paste it into Discord, X or anywhere.', { label: 'Save as file', run: () => ds.shareImage(url, true) });
+}
+$('#freedShare').onclick = () => state.freed && share(state.freed.total);
+
+// ---------- space map ----------
+const MAP_COLORS = ['#5b9dff', '#a78bfa', '#f472b6', '#2dd4bf', '#fbbf24', '#4ade80', '#fb7185', '#38bdf8', '#c084fc', '#f59e0b'];
+const mapState = { where: 'home', cache: {}, stack: [], home: '', back: 'home', busy: false };
+const isOther = (n) => n.other || !n.path;
+const prettyMap = (p) => (mapState.home && p.startsWith(mapState.home) ? '~' + p.slice(mapState.home.length) : p);
+$('.fm').textContent = isMac ? 'Finder' : 'File Explorer';
+$('#mapBack').innerHTML = UI_ICONS.back; $('#mapBack').append(document.createTextNode('Back'));
+
+// Squarified treemap (Bruls, Huizing, van Wijk): rows of boxes kept as close to square as possible.
+function squarify(items, x, y, w, h) {
+  const total = items.reduce((s, i) => s + i.v, 0);
+  if (!total || w <= 0 || h <= 0) return [];
+  const scale = (w * h) / total, out = [];
+  let rest = items.map((i) => ({ ...i, a: i.v * scale }));
+  const worst = (row, side) => { const s = row.reduce((t, r) => t + r.a, 0); let hi = 0, lo = Infinity; for (const r of row) { hi = Math.max(hi, r.a); lo = Math.min(lo, r.a); } return Math.max((side * side * hi) / (s * s), (s * s) / (side * side * lo)); };
+  while (rest.length) {
+    const side = Math.min(w, h);
+    const row = [rest[0]]; let i = 1;
+    while (i < rest.length && worst([...row, rest[i]], side) <= worst(row, side)) row.push(rest[i++]);
+    const s = row.reduce((t, r) => t + r.a, 0);
+    if (w >= h) { const cw = s / h; let yy = y; for (const r of row) { const rh = r.a / cw; out.push({ ...r, x, y: yy, w: cw, h: rh }); yy += rh; } x += cw; w -= cw; }
+    else { const rh = s / w; let xx = x; for (const r of row) { const cw2 = r.a / rh; out.push({ ...r, x: xx, y, w: cw2, h: rh }); xx += cw2; } y += rh; h -= rh; }
+    rest = rest.slice(i);
+  }
+  return out;
+}
+
+async function openMap(where = mapState.where, fresh = false) {
+  if (state.screen !== 'map') mapState.back = state.screen === 'results' ? 'results' : 'home';
+  mapState.where = where;
+  $$('#mapScope button').forEach((b) => b.classList.toggle('on', b.dataset.w === where));
+  // draw only once the map screen is on show, so the boxes can be measured
+  if (mapState.cache[where] && !fresh) { mapState.stack = [mapState.cache[where].tree]; mapState.home = mapState.cache[where].home; $('#mapBusy').hidden = true; return show('map', () => renderMap()); }
+  show('map');
+  $('#tm').querySelectorAll('.cell, .zoomer').forEach((n) => n.remove());
+  $('#mapList').replaceChildren(); $('#crumbs').replaceChildren(); $('#mapName').textContent = where === 'drive' ? 'Whole drive' : 'Your files'; $('#mapSize').textContent = ''; $('#mapFiles').textContent = '';
+  $('#mapBusy').hidden = false; $('#mapCount').textContent = 'Measuring…'; $('#mapPath').textContent = '';
+  mapState.busy = true;
+  const r = await ds.map(where);
+  mapState.busy = false;
+  if (!r || state.screen !== 'map' || mapState.where !== where) return; // stopped, or the person moved on
+  $('#mapBusy').hidden = true;
+  mapState.cache[where] = r; mapState.home = r.home; mapState.stack = [r.tree];
+  renderMap();
+}
+ds.onMap((p) => { if (mapState.busy) { $('#mapCount').textContent = `${p.files.toLocaleString()} files · ${fmt(p.bytes)}`; $('#mapPath').textContent = p.path ? prettyMap(p.path) : 'Drawing the map…'; } });
+
+function renderMap(from) {
+  const node = mapState.stack.at(-1);
+  const box = $('#tm');
+  box.querySelectorAll('.cell').forEach((n) => n.remove());
+  // breadcrumbs
+  const crumbs = $('#crumbs'); crumbs.replaceChildren();
+  mapState.stack.forEach((n, i) => {
+    if (i) crumbs.append(el('span', '', '›'));
+    const b = el('button', '', i ? n.name : (mapState.where === 'drive' ? (isMac ? 'Macintosh HD' : n.name) : 'Your files'));
+    b.onclick = () => { if (i < mapState.stack.length - 1) { mapState.stack.length = i + 1; renderMap(); } };
+    crumbs.append(b);
+  });
+  $('#mapName').textContent = mapState.stack.length > 1 ? node.name : (mapState.where === 'drive' ? 'Whole drive' : 'Your files');
+  $('#mapSize').textContent = fmt(node.bytes);
+  $('#mapFiles').textContent = `${node.files.toLocaleString()} file${node.files === 1 ? '' : 's'}`;
+
+  const W = box.clientWidth, H = box.clientHeight, GAP = 2;
+  const kids = (node.kids || []).filter((k) => k.bytes > 0);
+  const rects = squarify(kids.map((k, i) => ({ k, v: k.bytes, col: MAP_COLORS[i % MAP_COLORS.length] })), 0, 0, W, H);
+  const frag = document.createDocumentFragment();
+  rects.forEach((r, i) => {
+    const k = r.k, w = r.w - GAP, h = r.h - GAP;
+    if (w < 2 || h < 2) return;
+    const c = el('div', 'cell' + (isOther(k) ? ' other' : k.kids ? ' dir' : '') + (w > 220 && h > 120 ? ' roomy' : ''));
+    Object.assign(c.style, { left: r.x + GAP / 2 + 'px', top: r.y + GAP / 2 + 'px', width: w + 'px', height: h + 'px', animationDelay: Math.min(i * 18, 300) + 'ms' });
+    c.style.setProperty('--c', r.col);
+    let top = 0;
+    if (w > 64 && h > 30) { const lb = el('div', 'lb', k.name); lb.append(el('small', '', fmt(k.bytes))); c.append(lb); top = h > 70 ? 44 : 0; }
+    // a peek inside each folder: its own children, unlabelled
+    if (k.kids && w > 46 && h - top > 30) {
+      const inner = squarify(k.kids.filter((x) => x.bytes > 0).slice(0, 28).map((x) => ({ k: x, v: x.bytes })), 5, top + 3, w - 10, h - top - 8);
+      inner.forEach((s, j) => { if (s.w < 5 || s.h < 5) return; const d = el('div', 'sub' + (isOther(s.k) ? ' other' : j % 2 ? ' alt' : '')); if (s.w > 96 && s.h > 38) { const t = el('span', '', s.k.name); t.append(el('small', '', fmt(s.k.bytes))); d.append(t); } Object.assign(d.style, { left: s.x + 1 + 'px', top: s.y + 1 + 'px', width: s.w - 2 + 'px', height: s.h - 2 + 'px' }); c.append(d); });
+    }
+    c.onmousemove = (e) => { tip.textContent = isOther(k) ? k.name : prettyMap(k.path); tip.append(el('b', '', fmt(k.bytes))); tip.style.left = Math.min(Math.max(e.clientX, 160), innerWidth - 160) + 'px'; tip.style.top = e.clientY - 6 + 'px'; tip.hidden = false; };
+    c.onmouseleave = () => (tip.hidden = true);
+    c.oncontextmenu = (e) => { e.preventDefault(); if (!isOther(k)) ds.reveal(k.path); };
+    c.onclick = () => { if (k.kids) zoomInto(k, c, r.col); else if (!isOther(k)) ds.reveal(k.path); };
+    frag.append(c);
+  });
+  box.append(frag);
+
+  // the same children as a list, biggest first
+  const list = $('#mapList'); list.replaceChildren();
+  const max = kids[0]?.bytes || 1;
+  kids.slice(0, 14).forEach((k, i) => {
+    const row = el('div', 'ml-row' + (k.kids ? ' dir' : '')); row.style.setProperty('--c', MAP_COLORS[i % MAP_COLORS.length]);
+    const bar = el('div', 'b'); const fill = el('span'); fill.style.width = (k.bytes / max) * 100 + '%'; fill.style.animationDelay = i * 30 + 'ms'; bar.append(fill);
+    const rv = el('button', 'icon-btn'); rv.innerHTML = UI_ICONS.reveal; rv.title = isMac ? 'Show in Finder' : 'Show in File Explorer';
+    if (isOther(k)) rv.style.visibility = 'hidden';
+    rv.onclick = (e) => { e.stopPropagation(); ds.reveal(k.path); };
+    row.append(el('i'), el('span', 'n', k.name + (k.kids ? '/' : '')), bar, el('span', 's', fmt(k.bytes)), rv);
+    if (k.kids) row.onclick = () => { mapState.stack.push(k); renderMap(); $('.stage').scrollTo({ top: 0, behavior: 'smooth' }); };
+    list.append(row);
+  });
+}
+
+// Zoom: a block of the folder's colour grows from the clicked box to fill the map, then its insides fade in.
+function zoomInto(k, cell, col) {
+  tip.hidden = true;
+  const box = $('#tm'), W = box.clientWidth, H = box.clientHeight;
+  const x = cell.offsetLeft, y = cell.offsetTop, w = cell.offsetWidth, h = cell.offsetHeight;
+  const z = el('div', 'zoomer'); z.style.cssText = `width:${W}px;height:${H}px;background:${col};opacity:.55;transform:translate(${x}px,${y}px) scale(${w / W},${h / H})`;
+  box.append(z);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const a = z.animate([{ transform: `translate(${x}px,${y}px) scale(${w / W},${h / H})`, opacity: .55 }, { transform: 'none', opacity: .35 }], { duration: reduce ? 1 : 340, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' });
+  a.onfinish = () => {
+    mapState.stack.push(k); renderMap();
+    z.animate([{ opacity: .35 }, { opacity: 0 }], { duration: 260, fill: 'forwards' }).onfinish = () => z.remove();
+  };
+}
+
+$('#mapBtn').onclick = () => openMap('home');
+$('#mapTop').onclick = () => openMap(mapState.where);
+$$('#mapScope button').forEach((b) => (b.onclick = () => { if (b.dataset.w !== mapState.where || !mapState.cache[b.dataset.w]) openMap(b.dataset.w); }));
+function leaveMap() { if (mapState.busy) ds.mapCancel(); mapState.busy = false; tip.hidden = true; show(mapState.back, mapState.back === 'results' ? renderResults : undefined); }
+$('#mapBack').onclick = leaveMap;
+$('#mapStop').onclick = leaveMap;
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.screen === 'map') { if (mapState.stack.length > 1) { mapState.stack.pop(); renderMap(); } else leaveMap(); } });
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => state.screen === 'map' && mapState.stack.length && renderMap(), 120); });

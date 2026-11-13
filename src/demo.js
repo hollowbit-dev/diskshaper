@@ -23,7 +23,10 @@ function cats() {
       items: [it(`${S}/common/Iron Meridian`, 68.4, 0, { name: 'Iron Meridian', lastPlayed: now - 230 * DAY, store: 'steam', appid: '1', art: 'demo:art:0' }), it(`${S}/common/Skyline Racers`, 41.2, 0, { name: 'Skyline Racers', lastPlayed: now - 140 * DAY, store: 'steam', appid: '2', art: 'demo:art:1' }), it('Games/Epic/Last Lantern', 23.5, 0, { name: 'Last Lantern', lastPlayed: now - 400 * DAY, store: 'epic', art: 'demo:art:2' })] },
     { id: 'launcher', group: 'gamers', safety: 'safe', title: 'Launcher caches and logs',
       why: 'Store pages, images and log files saved by Steam and the Epic Games Launcher. They come back on their own.',
-      items: [it('Library/Application Support/Steam/appcache/httpcache', 0.62, 1), it('Library/Application Support/Epic/EpicGamesLauncher/Saved/webcache', 0.41, 2), it('Library/Application Support/Steam/logs', 0.08, 1)] },
+      items: [it('Library/Application Support/Steam/appcache/httpcache', 0.62, 1), it('Library/Application Support/Battle.net/Cache', 0.48, 3, { name: 'Battle.net cache' }), it('Library/Application Support/Epic/EpicGamesLauncher/Saved/webcache', 0.41, 2), it('Library/Application Support/Riot Games/Riot Client/Logs', 0.12, 1, { name: 'Riot Client logs' }), it('Library/Application Support/Steam/logs', 0.08, 1)] },
+    { id: 'drivers', group: 'gamers', safety: 'safe', title: 'Graphics driver installers',
+      why: 'NVIDIA and AMD unpack a full copy of each driver installer and leave it behind after the driver is installed. Your driver keeps working; the installer downloads again if you ever need it.',
+      items: [it('NVIDIA', 2.4, 60, { name: 'NVIDIA driver installer files' }), it('ProgramData/NVIDIA Corporation/Downloader', 1.6, 30, { name: 'Old NVIDIA driver downloads' })] },
 
     { id: 'creator-cache', group: 'creators', safety: 'safe', title: 'Video editing caches',
       why: 'Media cache, audio waveforms, render cache and proxies made by Premiere, After Effects, DaVinci Resolve, Final Cut and CapCut. The apps rebuild them when you open a project.',
@@ -79,4 +82,25 @@ function picture(key) {
   return 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64');
 }
 
-module.exports = { scan, picture };
+// A made-up drive for the space map.
+async function map(onProgress = () => {}) {
+  const f = (name, gb, kids) => ({ name, path: path.join(HOME, name), bytes: Math.round(gb * 1e9), files: Math.round(gb * 900), ...(kids ? { dir: true, kids } : {}) });
+  const sub = (parent, list) => list.map(([n, g, k]) => (/smaller items/.test(n) ? { name: n, bytes: Math.round(g * 1e9), files: Math.round(g * 900), other: true } : { ...f(n, g, k && sub(path.join(parent, n), k)), path: path.join(HOME, parent, n) }));
+  const kids = [
+    f('Games', 182, sub('Games', [['Iron Meridian', 68.4], ['Skyline Racers', 41.2], ['Last Lantern', 23.5], ['Starfall Tactics', 19.8], ['Neon Drift', 12.1], ['Hollow Pines', 9.3], ['1,204 smaller items', 7.7]])),
+    f('Videos', 96, sub('Videos', [['Exports', 38.2, [['Final cut v3.mp4', 12.1], ['Final cut v2.mp4', 11.8], ['Trailer 4K.mov', 9.2], ['B-roll.mov', 5.1]]], ['Raw footage', 34.6, [['Day 1', 14.2], ['Day 2', 11.9], ['Drone', 8.5]]], ['Screen recordings', 14.7], ['OBS', 8.5]])),
+    f('Library', 61, sub('Library', [['Application Support', 28.4, [['Adobe', 18.3], ['Steam', 6.2], ['Discord', 2.1], ['Spotify', 1.8]]], ['Caches', 14.9, [['Chrome', 4.2], ['Spotify', 3.1], ['Figma', 2.4], ['Slack', 1.9], ['Zoom', 1.2]]], ['Containers', 9.6], ['Mail', 5.2], ['Messages', 2.9]])),
+    f('Downloads', 38, sub('Downloads', [['Installers', 14.2], ['Old projects.zip', 9.4], ['Assets pack.zip', 6.6], ['Photos backup', 4.9], ['2,311 smaller items', 2.9]])),
+    f('Pictures', 31, sub('Pictures', [['Photos Library.photoslibrary', 24.8], ['Wallpapers', 3.4], ['Screenshots', 2.8]])),
+    f('Music', 14, sub('Music', [['Music', 11.2], ['Samples', 2.8]])),
+    f('Documents', 9.2, sub('Documents', [['School', 4.1], ['Work', 3.3], ['Scans', 1.8]])),
+    f('Desktop', 4.1), f('3,870 smaller items', 2.6),
+  ];
+  kids.at(-1).other = true; delete kids.at(-1).path;
+  const tree = { name: 'Your files', path: HOME, dir: true, kids, bytes: kids.reduce((s, k) => s + k.bytes, 0), files: 1834221 };
+  for (let i = 1; i <= 12; i++) { onProgress({ files: Math.round(tree.files * i / 12), bytes: tree.bytes * i / 12, path: kids[i % 8].path }); await new Promise((r) => setTimeout(r, 90)); }
+  onProgress({ files: tree.files, bytes: tree.bytes, path: '' });
+  return { tree, root: HOME, home: HOME, disk: { total: 494.38e9, free: 21.4e9 } };
+}
+
+module.exports = { scan, picture, map };

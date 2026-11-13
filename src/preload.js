@@ -15,6 +15,11 @@ contextBridge.exposeInMainWorld('ds', {
   checkUpdates: () => ipcRenderer.invoke('check-updates'),
   openUpdate: (u) => ipcRenderer.invoke('open-update', u),
   onUpdate: (fn) => ipcRenderer.on('update', (_, s) => fn(s)),
+  map: (where) => ipcRenderer.invoke('map', where),
+  mapCancel: () => ipcRenderer.invoke('map-cancel'),
+  onMap: (fn) => ipcRenderer.on('map-progress', (_, p) => fn(p)),
+  freed: () => ipcRenderer.invoke('freed'),
+  shareImage: (url, save) => ipcRenderer.invoke('share-image', url, save),
   onScan: (fn) => ipcRenderer.on('scan-progress', (_, p) => fn(p)),
   onClean: (fn) => ipcRenderer.on('clean-progress', (_, p) => fn(p)),
 });

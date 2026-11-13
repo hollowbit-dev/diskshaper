@@ -16,7 +16,7 @@
     <button data-g="gamers">Gaming</button>
     <button data-g="creators">Video editing</button>
   </nav>
-  <button class="ghost sm" id="rescan" hidden>Scan again</button>
+  <div class="top-r"><button class="ghost sm" id="mapTop" hidden>Space map</button><button class="ghost sm" id="rescan" hidden>Scan again</button></div>
 </header>
 
 <main class="stage">
@@ -42,7 +42,13 @@
     <p>Diskshaper looks through your drive and sorts what it finds into plain groups, from shader caches to old renders. It only cleans what you pick, and everything goes to the <span class="trashword">Trash</span> so you can undo it.</p>
     <div class="cta">
       <button id="scanBtn" class="primary lg">Scan</button>
+      <button id="mapBtn" class="ghost lg">Map my space</button>
       <span class="hint">Takes a few seconds. Reads only.</span>
+    </div>
+    <div class="freed" id="freed" hidden>
+      <div class="freed-n"><span id="freedNum">0</span><small id="freedUnit">GB</small></div>
+      <div class="freed-t"><b>cleared by Diskshaper so far</b><span id="freedSub"></span></div>
+      <button class="ghost sm" id="freedShare">Share</button>
     </div>
     <div class="who">
       <div><b class="dot everyone"></b><span><strong>Everyone</strong> Old installers, duplicate photos, huge forgotten files</span></div>
@@ -63,6 +69,28 @@
   </section>
 
   <section class="detail" id="detail" hidden></section>
+
+  <section class="map" id="map" hidden>
+    <div class="map-head">
+      <button class="d-back" id="mapBack"></button>
+      <nav class="crumbs" id="crumbs"></nav>
+      <div class="scope" id="mapScope"><button data-w="home" class="on">Your files</button><button data-w="drive">Whole drive</button></div>
+    </div>
+    <div class="map-title">
+      <h2 id="mapName">Space map</h2>
+      <div class="map-size"><b id="mapSize"></b><span id="mapFiles"></span></div>
+    </div>
+    <div class="tm" id="tm">
+      <div class="map-busy" id="mapBusy" hidden>
+        <div class="busy-ring"></div>
+        <b id="mapCount">Measuring…</b>
+        <span class="mono" id="mapPath"></span>
+        <button class="ghost sm" id="mapStop">Stop</button>
+      </div>
+    </div>
+    <p class="map-hint">Click a folder to open it. Right-click anything to show it in <span class="fm">Finder</span>. The map only reads; to clean safely, use Scan.</p>
+    <div class="map-list" id="mapList"></div>
+  </section>
 </main>
 
 <footer class="dock" id="dock" hidden>
@@ -78,6 +106,7 @@
     <svg class="done-check" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-15"/></svg>
     <div class="sheet-num"><span id="doneNum">0</span><small id="doneUnit">GB</small></div>
     <p id="doneTxt"></p>
+    <p class="sheet-total" id="doneTotal" hidden></p>
     <div class="sheet-btns">
       <button class="ghost" id="openTrash">Open Trash</button>
       <button class="primary" id="doneOk">Done</button>
@@ -85,6 +114,7 @@
   </div>
 </div>
 <div class="tip" id="tip" hidden></div>
+<div class="toast" id="toast" hidden></div>
 
 <script src="icons.js"></script>
 <script src="app.js"></script>
