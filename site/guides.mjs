@@ -193,4 +193,52 @@ export const GUIDES = [
       ['Does this work for Whisky or Wine?', 'Diskshaper reads CrossOver bottles today. Other Wine setups may come later.'],
     ],
   },
+  {
+    slug: 'reduce-system-data-mac',
+    title: 'Mac System Data is huge: what it is and how to reduce it safely',
+    desc: 'Why System Data takes so much space on your Mac, what is inside it, and the safe ways to shrink it. Free, step by step.',
+    h1: 'How to reduce System Data on a Mac',
+    answer: 'System Data is a catch-all in macOS\'s storage view. It holds caches, logs, local Time Machine snapshots, virtual machines and CrossOver bottles, and app support files, plus parts of macOS itself. You can safely shrink the caches, old snapshots and forgotten app data, but not macOS\'s own files. Diskshaper finds the parts that are safe to clean and moves them to the Trash.',
+    shot: 'app-overview',
+    steps: [
+      ['Restart your Mac first', 'A restart clears temporary files and often frees a few gigabytes of System Data on its own.'],
+      ['Download Diskshaper and press Scan this Mac', 'It shows app caches, game and editing caches, CrossOver bottles and other big leftovers in plain groups.'],
+      ['Clean what is marked Safe', 'Safe items are rebuilt or downloadable again. Everything goes to the Trash, so you can undo it.'],
+      ['Empty the Trash and check again', 'Open System Settings, General, Storage. System Data updates after a minute or two.'],
+    ],
+    sections: [
+      ['What is inside System Data', 'Caches from apps and browsers, log files, local Time Machine snapshots, virtual machine images, CrossOver and Parallels bottles, iOS update files and app support data. On a busy Mac this easily reaches 50 to 100 GB.'],
+      ['Local Time Machine snapshots', 'If you back up with Time Machine, macOS keeps local snapshots that count as System Data and are removed automatically when space runs low. In Terminal, tmutil listlocalsnapshots / lists them, and tmutil deletelocalsnapshots followed by a date removes one.'],
+      ['What to leave alone', 'Never delete things inside /System, /Library or /private you do not recognise. macOS needs them, and removing them can stop your Mac from starting. Diskshaper never looks in system folders.'],
+    ],
+    faq: [
+      ['Why does System Data keep growing?', 'Caches and snapshots grow as you use your Mac, then macOS trims them when it needs space. A sudden jump is usually a cache, a virtual machine or a stuck update.'],
+      ['Is it safe to delete System Data?', 'Not all of it. Caches, old snapshots and leftovers from apps you no longer use are safe. Files macOS needs are not, which is why Diskshaper only offers the safe parts.'],
+      ['How much free space should I keep?', 'At least 10 to 15% of the drive, so macOS has room for updates and virtual memory.'],
+    ],
+  },
+  {
+    slug: 'free-cleanmymac-alternative',
+    title: 'A free CleanMyMac alternative that only deletes what is safe',
+    desc: 'Looking for a free, open-source alternative to CleanMyMac? Diskshaper shows what is taking space, marks what is safe, and moves everything to the Trash.',
+    h1: 'A free CleanMyMac alternative',
+    answer: 'CleanMyMac is a paid subscription app that bundles cleaning with malware checks, app uninstalling and other tools. If you mainly want to free up space safely, Diskshaper is a free, open-source alternative: it scans your Mac in a few seconds, labels each group Safe or Check first, and moves anything you clean to the Trash so it can be undone.',
+    shot: 'app-overview',
+    steps: [
+      ['Download Diskshaper for Mac', 'Free and open source, for Apple Silicon and Intel Macs.'],
+      ['Press Scan this Mac', 'It finds caches, game and video-editing leftovers, old installers, duplicate photos and big forgotten files.'],
+      ['Clean what is Safe', 'Safe items are ticked for you. Check first items stay unticked until you decide.'],
+    ],
+    sections: [
+      ['How Diskshaper differs', 'Diskshaper only does storage, and it is careful about it. It never looks in macOS system folders, never deletes outright (everything goes to the Trash), and explains each group in plain words. It is free, has no account and sends nothing about your files anywhere.'],
+      ['What it does not do', 'It is not an antivirus and not an app uninstaller. For removing an app together with its leftover files, AppCleaner is a good free choice.'],
+      ['Other free options', 'macOS\'s own System Settings, General, Storage gives rough totals and a few recommendations. GrandPerspective and OmniDiskSweeper show what fills your disk as a map or a list, but leave it to you to decide what is safe.'],
+    ],
+    faq: [
+      ['Is Diskshaper really free?', 'Yes. It is free and open source, with no trial, subscription or ads.'],
+      ['Does it work on Windows too?', 'Yes. Diskshaper runs on Mac and Windows.'],
+      ['Can I undo a clean?', 'Yes. Everything goes to the Trash or Recycle Bin, so you can put it back until you empty it.'],
+    ],
+  },
+
 ];

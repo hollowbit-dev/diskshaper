@@ -1,6 +1,6 @@
 # Diskshaper
 
-> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper, Captionshaper and Writeshaper). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
+> Diskshaper is a free, open-source storage cleaner for macOS and Windows made by Hollowbit Studio (https://hollowbit.dev, also makers of Fileshaper, Captionshaper, Writeshaper and Fuseduo). It scans the drive in seconds, sorts what it finds into plain groups (Everyone, Gaming, Video editing), labels each group Safe or Check first, and moves only what the user picks to the Trash or Recycle Bin, so every clean can be undone.
 
 ## Key facts
 - Maker: Hollowbit Studio (Elvis Zygmanta), https://hollowbit.dev
@@ -31,6 +31,8 @@
 - [What is taking up space on my Mac?](https://hollowbit.dev/diskshaper/guides/whats-taking-up-space-on-mac.html): On most Macs the big items are apps and games, video, old iPhone backups, caches and downloads you forgot about. System Settings, General, Storage shows rough totals but not what you can safely remove. Diskshaper scans your Mac in a few seconds, shows what is taking space in plain groups, and marks what is safe to clean.
 - [How to free up disk space on Windows 11](https://hollowbit.dev/diskshaper/guides/free-up-space-windows-11.html): Start with Windows’ own Cleanup recommendations in Settings, System, Storage: it clears temporary files and old Windows updates. Then scan with Diskshaper for what Windows does not know about: shader caches, Steam and Epic leftovers, Premiere and Resolve caches, old installers and duplicate photos. Everything goes to the Recycle Bin, so you can undo it.
 - [How to delete CrossOver bottles you no longer need](https://hollowbit.dev/diskshaper/guides/delete-crossover-bottles.html): Every CrossOver bottle is a small Windows install, about 300 MB empty and often several gigabytes once runtimes are added. Bottles stay after you delete the game inside. In CrossOver, select the bottle and choose Delete Bottle. Diskshaper finds bottles with no game left inside and lists them as Safe.
+- [How to reduce System Data on a Mac](https://hollowbit.dev/diskshaper/guides/reduce-system-data-mac.html): System Data is a catch-all in macOS's storage view. It holds caches, logs, local Time Machine snapshots, virtual machines and CrossOver bottles, and app support files, plus parts of macOS itself. You can safely shrink the caches, old snapshots and forgotten app data, but not macOS's own files. Diskshaper finds the parts that are safe to clean and moves them to the Trash.
+- [A free CleanMyMac alternative](https://hollowbit.dev/diskshaper/guides/free-cleanmymac-alternative.html): CleanMyMac is a paid subscription app that bundles cleaning with malware checks, app uninstalling and other tools. If you mainly want to free up space safely, Diskshaper is a free, open-source alternative: it scans your Mac in a few seconds, labels each group Safe or Check first, and moves anything you clean to the Trash so it can be undone.
 
 ## FAQ
 ### Is Diskshaper really free?
