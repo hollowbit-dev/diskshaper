@@ -191,5 +191,5 @@ ipcMain.handle('open-trash', () => {
 ipcMain.handle('steam-uninstall', (e, appid) => /^\d+$/.test(appid) && shell.openExternal(`steam://uninstall/${appid}`));
 ipcMain.handle('epic-open', () => shell.openExternal('com.epicgames.launcher://store/library'));
 
-app.whenReady().then(() => { create(); if (!DEMO) updates.schedule(); });
+app.whenReady().then(() => { require('./discord-menu').addDiscordMenu(); create(); if (!DEMO) updates.schedule(); });
 app.on('window-all-closed', () => app.quit());
