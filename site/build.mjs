@@ -16,7 +16,7 @@ const UPDATED = '2026-11-11';
 const SITE = {
   url: 'https://hollowbit.dev/diskshaper', base: '/diskshaper/',
   github: 'https://github.com/hollowbit-dev/diskshaper', tip: 'https://ko-fi.com/hollowbit',
-  studio: 'https://hollowbit.dev/', fileshaper: 'https://fileshaper.app', captionshaper: 'https://captionshaper.app', writeshaper: 'https://hollowbit.dev/writeshaper/', startshaper: 'https://hollowbit.dev/startshaper/', lightshaper: 'https://hollowbit.dev/lightshaper/', clipshaper: 'https://hollowbit.dev/clipshaper/', moveshaper: 'https://hollowbit.dev/moveshaper/', fuseduo: 'https://fuseduo.com/',
+  studio: 'https://hollowbit.dev/', fileshaper: 'https://hollowbit.dev/fileshaper/', captionshaper: 'https://hollowbit.dev/captionshaper/', writeshaper: 'https://hollowbit.dev/writeshaper/', startshaper: 'https://hollowbit.dev/startshaper/', lightshaper: 'https://hollowbit.dev/lightshaper/', clipshaper: 'https://hollowbit.dev/clipshaper/', moveshaper: 'https://hollowbit.dev/moveshaper/', fuseduo: 'https://fuseduo.com/',
 };
 const FILES = { mac: `Diskshaper-${V}-mac-arm64.dmg`, macIntel: `Diskshaper-${V}-mac-x64.dmg`, win: `Diskshaper-Setup-${V}-win-x64.exe` };
 const DL = `${SITE.github}/releases/latest/download/`;
